@@ -1,0 +1,537 @@
+========================================
+husisha (tegemezi la faili)
+========================================
+
+husisha { msingi/msingi_civ.swa }
+husisha { ../../msingi/maktaba/kumbukumbu.swa }
+
+---
+
+(source_file
+  (husisha_declaration path: (husisha_path))
+  (husisha_declaration path: (husisha_path)))
+
+========================================
+muundo (struct) na sehemu zake
+========================================
+
+muundo Nukta {
+    n32 x;
+    n32 y;
+};
+
+---
+
+(source_file
+  (struct_declaration
+    name: (identifier)
+    body: (field_declaration_list
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier)))))
+
+========================================
+muundo bila ';' ya mwisho (hiari kwa vitendo)
+========================================
+
+muundo P { N32 a; N32 b; }
+
+---
+
+(source_file
+  (struct_declaration
+    name: (identifier)
+    body: (field_declaration_list
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier)))))
+
+========================================
+tangazo la kazi (herufi ndogo)
+========================================
+
+n32 jumla(n32 a, n32 b) {
+    rudisha a + b;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list
+      (parameter type: (primitive_type) name: (identifier))
+      (parameter type: (primitive_type) name: (identifier)))
+    body: (block
+      (return_statement value: (binary_expression left: (identifier) right: (identifier))))))
+
+========================================
+tangazo la mbele (function prototype)
+========================================
+
+N32 changanua_usemi(Msambazaji* p);
+
+---
+
+(source_file
+  (function_prototype
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list
+      (parameter type: (identifier) name: (identifier)))))
+
+========================================
+kielekezi (pointer) na anwani/dereference
+========================================
+
+n32 main() {
+    n32 x = 5;
+    n32* p = &x;
+    n32 y = *p;
+    rudisha y;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (address_expression operand: (identifier))))
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (dereference_expression operand: (identifier))))
+      (return_statement value: (identifier)))))
+
+========================================
+kama/sivyo (if/else)
+========================================
+
+n32 main() {
+    kama (1) {
+        rudisha 1;
+    } sivyo {
+        rudisha 2;
+    }
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (if_statement
+        condition: (number_literal)
+        consequence: (block (return_statement value: (number_literal)))
+        alternative: (block (return_statement value: (number_literal)))))))
+
+========================================
+kama/sivyo bila mabano (taarifa moja)
+========================================
+
+n32 main() {
+    kama (1) rudisha 1; sivyo rudisha 2;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (if_statement
+        condition: (number_literal)
+        consequence: (return_statement value: (number_literal))
+        alternative: (return_statement value: (number_literal))))))
+
+========================================
+wakati (while)
+========================================
+
+n32 main() {
+    n32 i = 0;
+    wakati (i < 10) {
+        i = i + 1;
+    }
+    rudisha i;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
+      (while_statement
+        condition: (binary_expression left: (identifier) right: (number_literal))
+        body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (identifier) right: (number_literal))))))
+      (return_statement value: (identifier)))))
+
+========================================
+kwa (for)
+========================================
+
+n32 main() {
+    n32 jumla = 0;
+    kwa (n32 i = 0; i < 10; i = i + 1) {
+        jumla = jumla + i;
+    }
+    rudisha jumla;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
+      (for_statement
+        type: (primitive_type)
+        name: (identifier)
+        value: (number_literal)
+        condition: (binary_expression left: (identifier) right: (number_literal))
+        update: (assignment_expression left: (identifier) right: (binary_expression left: (identifier) right: (number_literal)))
+        body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (identifier) right: (identifier))))))
+      (return_statement value: (identifier)))))
+
+========================================
+fanya (do-while)
+========================================
+
+n32 main() {
+    n32 i = 0;
+    fanya {
+        i = i + 1;
+    } wakati (i < 3);
+    rudisha i;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
+      (do_while_statement
+        body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (identifier) right: (number_literal)))))
+        condition: (binary_expression left: (identifier) right: (number_literal)))
+      (return_statement value: (identifier)))))
+
+========================================
+chagua (switch)
+========================================
+
+n32 main() {
+    n32 x = 1;
+    chagua (x) {
+        hali 1: rudisha 10;
+        hali 2: rudisha 20;
+        sivyo: rudisha 0;
+    }
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
+      (switch_statement
+        value: (identifier)
+        (switch_case label: (number_literal) (return_statement value: (number_literal)))
+        (switch_case label: (number_literal) (return_statement value: (number_literal)))
+        (switch_case (return_statement value: (number_literal)))))))
+
+========================================
+vunja na endelea
+========================================
+
+n32 main() {
+    n32 i = 0;
+    wakati (1) {
+        kama (i > 5) { vunja; }
+        i = i + 1;
+        endelea;
+    }
+    rudisha i;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
+      (while_statement
+        condition: (number_literal)
+        body: (block
+          (if_statement condition: (binary_expression left: (identifier) right: (number_literal)) consequence: (block (break_statement)))
+          (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (identifier) right: (number_literal))))
+          (continue_statement)))
+      (return_statement value: (identifier)))))
+
+========================================
+achilia (kuachilia kumbukumbu)
+========================================
+
+w0 futa(n32* p) {
+    achilia p;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list (parameter type: (primitive_type) name: (identifier)))
+    body: (block (achilia_statement operand: (identifier)))))
+
+========================================
+upatikanaji wa sehemu (. na ->)
+========================================
+
+n32 main() {
+    Nukta n;
+    Nukta* p = &n;
+    rudisha p->x + n.y;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration type: (identifier) (declarator name: (identifier)))
+      (local_variable_declaration type: (identifier) (declarator name: (identifier) value: (address_expression operand: (identifier))))
+      (return_statement
+        value: (binary_expression
+          left: (field_expression object: (identifier) field: (identifier))
+          right: (field_expression object: (identifier) field: (identifier)))))))
+
+========================================
+mfuatano (string) na herufi (char) halisi
+========================================
+
+n32 main() {
+    n8* s = "habari \n\t\\\"";
+    n8 c = '\n';
+    n8 h = '\x41';
+    rudisha 0;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (string_literal)))
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (char_literal)))
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (char_literal)))
+      (return_statement value: (number_literal)))))
+
+========================================
+maoni ya mstari na ya kizuizi (pamoja na upachikaji)
+========================================
+
+// maoni ya mstari
+/* maoni ya kizuizi */
+/* maoni /* yaliyopachikana */ hapa */
+n32 main() { rudisha 0; }
+
+---
+
+(source_file
+  (comment)
+  (comment)
+  (comment)
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block (return_statement value: (number_literal)))))
+
+========================================
+ugawi wa kiwanja (compound assignment)
+========================================
+
+n32 main() {
+    n32 a = 5;
+    a += 3;
+    a -= 1;
+    a *= 2;
+    a /= 2;
+    a %= 3;
+    a &= 1;
+    a |= 2;
+    a ^= 1;
+    a <<= 1;
+    a >>= 1;
+    rudisha a;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
+      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
+      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
+      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
+      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
+      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
+      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
+      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
+      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
+      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
+      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
+      (return_statement value: (identifier)))))
+
+========================================
+ukubwa()/urefu() na jina la aina kama hoja
+========================================
+
+n32 main() {
+    n32* p = tenga(ukubwa(n32));
+    n32 n = urefu(p);
+    rudisha n;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration
+        type: (primitive_type)
+        (declarator
+          name: (identifier)
+          value: (call_expression
+            function: (identifier)
+            arguments: (argument_list (call_expression function: (identifier) arguments: (argument_list (primitive_type)))))))
+      (local_variable_declaration
+        type: (primitive_type)
+        (declarator name: (identifier) value: (call_expression function: (identifier) arguments: (argument_list (identifier)))))
+      (return_statement value: (identifier)))))
+
+========================================
+taarifa tupu (empty statement)
+========================================
+
+n32 f() { ; }
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block (empty_statement))))
+
+========================================
+safu (array) ya miundo na fahirisi
+========================================
+
+n32 main() {
+    Kubwa s[3];
+    s[0].a = 1;
+    rudisha (p + 1)->c;
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (local_variable_declaration type: (identifier) (declarator name: (identifier) size: (number_literal)))
+      (expression_statement
+        (assignment_expression
+          left: (field_expression
+            object: (subscript_expression object: (identifier) index: (number_literal))
+            field: (identifier))
+          right: (number_literal)))
+      (return_statement
+        value: (field_expression
+          object: (parenthesized_expression (binary_expression left: (identifier) right: (number_literal)))
+          field: (identifier))))))
+
+========================================
+aina za msingi: familia zote (n a d b w), herufi kubwa na ndogo
+========================================
+
+muundo Aina {
+    n8 a1;
+    n16 a2;
+    n32 a3;
+    n64 a4;
+    a8 b2;
+    a64 b3;
+    d32 c1;
+    d64 c2;
+    b1 d1;
+    b64 d2;
+    w0 e1;
+    w64 e2;
+    N32 f1;
+    D64 f2;
+    W0 f3;
+};
+
+---
+
+(source_file
+  (struct_declaration
+    name: (identifier)
+    body: (field_declaration_list
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier))
+      (field_declaration type: (primitive_type) name: (identifier)))))

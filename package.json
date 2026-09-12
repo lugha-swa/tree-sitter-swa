@@ -1,0 +1,45 @@
+{
+  "name": "tree-sitter-swa",
+  "version": "0.1.0",
+  "description": "Sarufi ya Tree-sitter kwa lugha ya Swa",
+  "main": "bindings/node",
+  "types": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer",
+    "swa"
+  ],
+  "repository": "github:lugha-swa/tree-sitter-swa",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.20.0",
+    "node-addon-api": "^8.0.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.27.0",
+    "prebuildify": "^6.0.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "install": "node-gyp-build",
+    "prestart": "tree-sitter build --wasm",
+    "start": "tree-sitter playground",
+    "test": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.swa",
+      "file-types": [
+        "swa"
+      ]
+    }
+  ]
+}
