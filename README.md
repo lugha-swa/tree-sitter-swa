@@ -1,63 +1,48 @@
-# tree-sitter-swa
+<div align="center">
+  <p>
+    <a href="https://github.com/lugha-swa/tree-sitter-swa">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/lugha-swa/.github/main/rasilimali/mabango/tree-sitter-swa-giza.png">
+        <img width="100%" src="https://raw.githubusercontent.com/lugha-swa/.github/main/rasilimali/mabango/tree-sitter-swa-mwanga.png" alt="tree-sitter-swa — sarufi ya Tree-sitter kwa lugha ya Swa">
+      </picture>
+    </a>
+  </p>
 
-Sarufi ya [Tree-sitter](https://tree-sitter.github.io/) kwa lugha ya
-Swa -- lugha ya programu ya Kiswahili pekee, iliyojiandika yenyewe
-(self-hosted), inayopatikana kwenye
-[lugha-swa/swa](https://github.com/lugha-swa/swa).
+[Tovuti](https://lugha-swa.github.io) | [Swa](https://github.com/lugha-swa/swa) | [Tree-sitter](https://tree-sitter.github.io/) | [Jamii](https://lugha-swa.github.io/jamii.html)
 
-## Kwa nini
+<br>
 
-Swa haipo (bado) kwenye orodha ya lugha za
-[GitHub Linguist](https://github.com/github-linguist/linguist) --
-uongezaji rasmi unahitaji kiwango cha matumizi (repos 200+
-zisizo za fork) ambazo Swa haijafikia bado, kwa sababu ni lugha
-mpya. Hilo si tatizo la kiufundi -- ni la muda na jamii. Sarufi hii
-haitatui hilo, lakini inatatua tatizo la VITENDO la kila siku: **syntax
-highlighting halisi** wakati wa kuandika `.swa` kwenye Neovim (au
-kihariri chochote kinachotumia tree-sitter), na ni msingi
-unaoendana na mwelekeo wa Linguist mwenyewe (unapendelea sarufi za
-tree-sitter kuliko TextMate kwa lugha mpya).
+<img src="https://img.shields.io/badge/tree--sitter-0.27-A34E14" alt="tree-sitter 0.27">
+<a href="LICENSE"><img src="https://img.shields.io/badge/leseni-MIT-6B5E4A" alt="Leseni MIT"></a>
+<img src="https://img.shields.io/badge/corpus-22%2F22-6B5E4A" alt="corpus 22/22">
 
-## Chanzo cha ukweli
+</div>
+<br>
 
-Sarufi hii SI dhana -- kila kanuni imetolewa kwa kusoma chanzo halisi
-cha mkusanyaji wa Swa (`lugha-swa/swa`), hasa:
+**tree-sitter-swa** ni sarufi ya [Tree-sitter](https://tree-sitter.github.io/) kwa [Swa](https://github.com/lugha-swa/swa) — inaleta **rangi halisi za sintaksia** kwenye Neovim na kihariri chochote kinachotumia Tree-sitter.
 
-- `hati/vipimo-vya-lugha.md` -- vipimo rasmi vya lugha.
-- `msingi/mkusanyaji/msomaji.swa` -- lexer halisi (`ni_neno_muhimu`
-  ina orodha KAMILI ya maneno muhimu -- ikiwemo `tenga`, ambayo hati
-  inadai SI neno muhimu lakini lexer inaithibitisha KWELI ni).
-- `msingi/mkusanyaji/msambazaji.swa` -- parser halisi (jinsi aina za
-  msingi zinavyotambuliwa, mpangilio wa taarifa, n.k.).
-- `hati/uthibitisho-wa-lugha.md` na faili za `majaribio/programu/*.swa`
-  -- vipengele vilivyothibitishwa kufanya kazi (au KUKATALIWA kwa
-  makusudi) kwa jaribio halisi, si kwa kudhania tu.
+Swa bado haipo kwenye [GitHub Linguist](https://github.com/github-linguist/linguist): uongezaji rasmi unahitaji hazina 200+ zisizo fork zinazotumia lugha. Hilo ni suala la muda na jamii, si la kiufundi. Sarufi hii inatatua tatizo la kila siku sasa hivi, na ndiyo msingi ambao Linguist yenyewe inapendelea kwa lugha mpya.
 
-Imejaribiwa dhidi ya **faili 300+ za `.swa` halisi** kwenye
-`lugha-swa/swa` (289/300, 96.3%, zinachanganuliwa bila hitilafu -- 11
-zilizosalia zote ni majaribio ya KUKATALIWA KWA MAKUSUDI na mkusanyaji
-mwenyewe, mfano `++`/`--`/nukuu-ya-kisayansi/halisi-za-radiksi ambazo
-HAZIPO kwenye lugha, AU mfano MMOJA wa mgongano wa kileksia
-uliojulikana -- angalia "Mipaka Inayojulikana" chini) na **faili
-111/111 (100%) za mradi wa Dominion** (`Kandemark/dominion`,
-mradi mkubwa zaidi wa Swa uliopo, ukitumia herufi ndogo za aina za
-msingi).
+## Anza
 
-## Kutumia
-
-### Kujenga
+<details open>
+<summary><b>Jenga na jaribu</b></summary>
+<br>
 
 ```sh
 npm install
 npx tree-sitter generate
-npx tree-sitter build      # tree-sitter-swa.so (lugha ya kimatendo)
-npx tree-sitter test       # jaribio la corpus (test/corpus/*.txt)
+npx tree-sitter build      # tree-sitter-swa.so
+npx tree-sitter test       # corpus: test/corpus/*.txt
 ```
 
-### Neovim (nvim-treesitter)
+</details>
 
-Swa HAIKO kwenye orodha ya ndani ya nvim-treesitter (ni lugha mpya
-sana). Sajili kama parser ya nje kwenye `init.lua`:
+<details open>
+<summary><b>Neovim (nvim-treesitter)</b></summary>
+<br>
+
+Swa haiko kwenye orodha ya ndani ya nvim-treesitter. Isajili kama parser ya nje kwenye `init.lua`:
 
 ```lua
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
@@ -73,45 +58,57 @@ parser_config.swa = {
 vim.filetype.add({ extension = { swa = "swa" } })
 ```
 
-Kisha: `:TSInstall swa`. Faili la `queries/highlights.scm` la hazina
-hii litatumika moja kwa moja.
+Kisha `:TSInstall swa`. `queries/highlights.scm` hutumika moja kwa moja.
 
-## Mipaka Inayojulikana
+</details>
 
-Sarufi hii ni kwa ajili ya **syntax highlighting**, SI mkusanyaji
-kamili -- baadhi ya mipaka ifuatayo imekubaliwa kwa makusudi kwa
-sababu suluhisho kamili ni kazi kubwa zaidi isiyolingana na lengo
-la toleo hili la kwanza:
+## Usahihi
 
-1. **Mgongano wa "b1"**: `b1` ni herufi kubwa/ndogo halali kabisa ya
-   aina ya msingi (familia B, upana 1 -- boolean), lakini pia jina la
-   kawaida la kigezo kwenye msimbo halisi (`msingi/mkusanyaji/
-   uzalishaji.swa` inatumia "b1"/"b2"/"b3" kama majina ya vigezo vya
-   ndani vya baiti). Kwenye nafasi ya mwanzo wa taarifa (ambapo
-   tangazo la aina na usemi wa kawaida vyote viwili vinawezekana),
-   sarufi hii inapendelea kusoma "b1" kama JINA LA AINA -- sawa na
-   jinsi tree-sitter-c inavyoshughulikia mgongano uleule wa
-   "typedef name" bila `external scanner` yenye jedwali la majina.
-   Suluhisho kamili linahitaji external scanner inayofuatilia majina
-   ya miundo/aina KWA MUKTADHA -- kazi ya baadaye halisi, nje ya wigo
-   wa toleo hili.
-2. **Upachikaji wa maoni `/* */`**: unaungwa mkono hadi KINA CHA 4
-   (regex haiwezi kuwakilisha upachikaji usio na mpaka moja kwa
-   moja) -- kina zaidi ya hapo kitaonekana kama hitilafu ya
-   uchanganuzi. Suluhisho kamili pia linahitaji external scanner.
-3. **Vipengele visivyopo kwenye lugha kwa makusudi** (na kwa hiyo
-   havisaidiwi hapa PIA, kwa makusudi, ili kuendana na tabia halisi
-   ya mkusanyaji): `++`/`--`, halisi za radiksi (`0xFF`/`0b1010`),
-   nukuu ya kisayansi (`1.5e2`), kianzilishi cha safu (`{1,2,3}`).
-   Haya YOTE yamethibitishwa kukataliwa kwa sauti na mkusanyaji
-   halisi (`majaribio/programu/jaribio_mende_*_kata.swa`) -- sarufi
-   hii ikiyakataa pia inalingana na lugha halisi, si pengo.
+Kila kanuni imetolewa kwa kusoma chanzo halisi cha mkusanyaji, si kwa kudhania: `hati/vipimo-vya-lugha.md`, lexer (`msomaji.swa` — `ni_neno_muhimu` ndiyo orodha kamili ya maneno muhimu), parser (`msambazaji.swa`), na majaribio ya `majaribio/programu/`.
+
+| Kipimo (2026-10-30, tree-sitter 0.27) | Matokeo |
+|---|---|
+| Corpus (`tree-sitter test`) | 22 / 22 |
+| Faili zote za `.swa` kwenye [lugha-swa/swa](https://github.com/lugha-swa/swa) | 486 / 498 (97.6%) |
+| Faili zote za `.swa` za [Dominion](https://github.com/Kandemark/dominion), mradi mkubwa zaidi wa Swa | 111 / 111 |
+
+Faili 12 za Swa zisizochanganuliwa ni: **9** majaribio ya kukataliwa kwa makusudi (`++`, `--`, radiksi, nukuu ya kisayansi, kianzilishi cha safu — mkusanyaji huyakataa pia), na **3** mifano ya mgongano wa `b1` ulioelezwa hapa chini (`b1`, `b8` kama majina ya vigezo).
+
+## Mipaka inayojulikana
+
+Sarufi hii ni ya **rangi za sintaksia**, si mkusanyaji kamili. Mipaka hii imekubaliwa kwa makusudi:
+
+1. **Mgongano wa `b1`.** `b1` ni jina halali la aina (familia `b`, upana 1), lakini pia jina la kawaida la kigeu (`uzalishaji.swa` hutumia `b1`/`b2`/`b3`). Mwanzoni mwa taarifa, ambapo tangazo na usemi vyote vinawezekana, sarufi hii husoma `b1` kama jina la aina — sawa na jinsi tree-sitter-c inavyoshughulikia mgongano wa "typedef name". Suluhisho kamili linahitaji external scanner inayofuatilia majina kwa muktadha.
+2. **Maoni `/* */` yaliyopachikwa** yanaungwa mkono hadi kina cha 4 (regex haiwezi kuwakilisha upachikaji usio na mpaka). Kina zaidi kinahitaji external scanner pia.
+3. **Vipengele visivyopo kwenye lugha** — `++`/`--`, radiksi (`0xFF`), nukuu ya kisayansi (`1.5e2`), kianzilishi cha safu (`{1,2,3}`) — havisaidiwi hapa pia, kwa makusudi, ili sarufi ilingane na mkusanyaji halisi.
 
 ## Muundo wa hazina
 
-- `grammar.js` -- ufafanuzi wa sarufi (Tree-sitter DSL).
-- `src/` -- parser iliyozalishwa (`tree-sitter generate`).
-- `queries/highlights.scm` -- kanuni za highlighting.
-- `test/corpus/` -- majaribio ya corpus (`tree-sitter test`).
-- `bindings/` -- viungo vya Node.js na C (mkataba wa kawaida wa
-  hazina za `tree-sitter-<lugha>`).
+| Njia | Maelezo |
+|---|---|
+| `grammar.js` | ufafanuzi wa sarufi (Tree-sitter DSL) |
+| `src/` | parser iliyozalishwa (`tree-sitter generate`) |
+| `queries/highlights.scm` | kanuni za rangi |
+| `test/corpus/` | majaribio ya corpus |
+| `bindings/` | viungo vya Node.js na C |
+
+## Ikolojia
+
+| Hazina | Maelezo |
+|---|---|
+| [lugha-swa/swa](https://github.com/lugha-swa/swa) | mkusanyaji na maktaba ya msingi |
+| [lugha-swa/kawira](https://github.com/lugha-swa/kawira) | Swa kwenye ring 0 — kernel inayoanzisha, iliyoandikwa kwa Swa |
+| [lugha-swa/uchapaji-swa](https://github.com/lugha-swa/uchapaji-swa) | msomaji wa TrueType na kijazaji cha glyph, bila FreeType |
+| [lugha-swa/tree-sitter-swa](https://github.com/lugha-swa/tree-sitter-swa) | sarufi ya Tree-sitter — hazina hii |
+| [lugha-swa.github.io](https://github.com/lugha-swa/lugha-swa.github.io) | tovuti na mwongozo wa lugha |
+
+## Leseni
+
+[MIT](LICENSE).
+
+<br>
+<div align="center">
+  <a href="https://github.com/lugha-swa"><img src="https://raw.githubusercontent.com/lugha-swa/.github/main/rasilimali/nembo/nembo-64.png" width="28" alt="lugha-swa"></a>
+  <br>
+  <sub>lugha-swa · Afrika ya Mashariki</sub>
+</div>
