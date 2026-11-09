@@ -4,7 +4,7 @@
 //   - hati/vipimo-vya-lugha.md (lugha-swa/swa) -- sehemu 2 (leksia),
 //     3 (aina), 4 (usemi/utangulizi), 5-8 (kazi/taarifa/miundo/husisha).
 //   - msingi/mkusanyaji/msomaji.swa -- ni_neno_muhimu (maneno muhimu
-//     HALISI ya kileksia: kwa, kama, hali, fanya, sivyo, tenga, vunja,
+//     HALISI ya kileksia: kwa, kama, hali, fanya, sivyo, tenga, acha,
 //     wakati, muundo, chagua, achilia, rudisha, husisha, endelea --
 //     tenga NI neno muhimu licha ya hati kudai vinginevyo, imethibitishwa
 //     kwa kusoma chanzo cha lexer moja kwa moja).
@@ -265,7 +265,8 @@ module.exports = grammar({
     return_statement: ($) =>
       seq("rudisha", optional(field("value", $._expression)), ";"),
 
-    break_statement: (_) => seq("vunja", ";"),
+    // acha ("simama, acha") -- vunja ni la zamani, linakubalika kwa toleo moja
+    break_statement: (_) => seq(choice("acha", "vunja"), ";"),
 
     continue_statement: (_) => seq("endelea", ";"),
 
@@ -469,7 +470,7 @@ module.exports = grammar({
     // MUHIMU: mfuatano LAZIMA uwe token MOJA HALISI (token()), si
     // mnyororo wa tokeni ndogo -- vinginevyo lexer ya tree-sitter
     // ingejaribu kulinganisha herufi/maneno ndani ya mfuatano (mfano
-    // "HITILAFU" ndani ya `andika_stderr("; DEB: HITILAFU ...")`)
+    // "HITILAFU" ndani ya `andika_kosa("; DEB: HITILAFU ...")`)
     // dhidi ya sheria za identifier/neno-muhimu badala ya kuzisoma
     // kama sehemu ya mfuatano -- iligunduliwa kwa jaribio HALISI
     // dhidi ya msambazaji.swa halisi (mfuatano zenye maneno ya

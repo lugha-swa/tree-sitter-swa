@@ -83,7 +83,7 @@ N32 changanua_usemi(Msambazaji* p);
 kielekezi (pointer) na anwani/dereference
 ========================================
 
-n32 main() {
+n32 anza() {
     n32 x = 5;
     n32* p = &x;
     n32 y = *p;
@@ -107,7 +107,7 @@ n32 main() {
 kama/sivyo (if/else)
 ========================================
 
-n32 main() {
+n32 anza() {
     kama (1) {
         rudisha 1;
     } sivyo {
@@ -132,7 +132,7 @@ n32 main() {
 kama/sivyo bila mabano (taarifa moja)
 ========================================
 
-n32 main() {
+n32 anza() {
     kama (1) rudisha 1; sivyo rudisha 2;
 }
 
@@ -153,7 +153,7 @@ n32 main() {
 wakati (while)
 ========================================
 
-n32 main() {
+n32 anza() {
     n32 i = 0;
     wakati (i < 10) {
         i = i + 1;
@@ -179,7 +179,7 @@ n32 main() {
 kwa (for)
 ========================================
 
-n32 main() {
+n32 anza() {
     n32 jumla = 0;
     kwa (n32 i = 0; i < 10; i = i + 1) {
         jumla = jumla + i;
@@ -209,7 +209,7 @@ n32 main() {
 fanya (do-while)
 ========================================
 
-n32 main() {
+n32 anza() {
     n32 i = 0;
     fanya {
         i = i + 1;
@@ -235,7 +235,7 @@ n32 main() {
 chagua (switch)
 ========================================
 
-n32 main() {
+n32 anza() {
     n32 x = 1;
     chagua (x) {
         hali 1: rudisha 10;
@@ -260,13 +260,13 @@ n32 main() {
         (switch_case (return_statement value: (number_literal)))))))
 
 ========================================
-vunja na endelea
+acha na endelea
 ========================================
 
-n32 main() {
+n32 anza() {
     n32 i = 0;
     wakati (1) {
-        kama (i > 5) { vunja; }
+        kama (i > 5) { acha; }
         i = i + 1;
         endelea;
     }
@@ -311,7 +311,7 @@ w0 futa(n32* p) {
 upatikanaji wa sehemu (. na ->)
 ========================================
 
-n32 main() {
+n32 anza() {
     Nukta n;
     Nukta* p = &n;
     rudisha p->x + n.y;
@@ -336,7 +336,7 @@ n32 main() {
 mfuatano (string) na herufi (char) halisi
 ========================================
 
-n32 main() {
+n32 anza() {
     n8* s = "habari \n\t\\\"";
     n8 c = '\n';
     n8 h = '\x41';
@@ -363,7 +363,7 @@ maoni ya mstari na ya kizuizi (pamoja na upachikaji)
 // maoni ya mstari
 /* maoni ya kizuizi */
 /* maoni /* yaliyopachikana */ hapa */
-n32 main() { rudisha 0; }
+n32 anza() { rudisha 0; }
 
 ---
 
@@ -381,7 +381,7 @@ n32 main() { rudisha 0; }
 ugawi wa kiwanja (compound assignment)
 ========================================
 
-n32 main() {
+n32 anza() {
     n32 a = 5;
     a += 3;
     a -= 1;
@@ -421,7 +421,7 @@ n32 main() {
 ukubwa()/urefu() na jina la aina kama hoja
 ========================================
 
-n32 main() {
+n32 anza() {
     n32* p = tenga(ukubwa(n32));
     n32 n = urefu(p);
     rudisha n;
@@ -466,7 +466,7 @@ n32 f() { ; }
 safu (array) ya miundo na fahirisi
 ========================================
 
-n32 main() {
+n32 anza() {
     Kubwa s[3];
     s[0].a = 1;
     rudisha (p + 1)->c;
@@ -535,3 +535,23 @@ muundo Aina {
       (field_declaration type: (primitive_type) name: (identifier))
       (field_declaration type: (primitive_type) name: (identifier))
       (field_declaration type: (primitive_type) name: (identifier)))))
+
+========================================
+vunja (neno la zamani, bado linakubalika)
+========================================
+
+w0 f() {
+    wakati (1) { vunja; }
+}
+
+---
+
+(source_file
+  (function_declaration
+    return_type: (primitive_type)
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (block
+      (while_statement
+        condition: (number_literal)
+        body: (block (break_statement))))))
