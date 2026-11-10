@@ -265,8 +265,8 @@ module.exports = grammar({
     return_statement: ($) =>
       seq("rudisha", optional(field("value", $._expression)), ";"),
 
-    // acha ("simama, acha") -- vunja ni la zamani, linakubalika kwa toleo moja
-    break_statement: (_) => seq(choice("acha", "vunja"), ";"),
+    // acha ("simama, acha"): toka kwenye mzunguko
+    break_statement: (_) => seq("acha", ";"),
 
     continue_statement: (_) => seq("endelea", ";"),
 

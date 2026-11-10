@@ -954,17 +954,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "acha"
-            },
-            {
-              "type": "STRING",
-              "value": "vunja"
-            }
-          ]
+          "type": "STRING",
+          "value": "acha"
         },
         {
           "type": "STRING",

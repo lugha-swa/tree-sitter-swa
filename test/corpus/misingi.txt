@@ -535,23 +535,3 @@ muundo Aina {
       (field_declaration type: (primitive_type) name: (identifier))
       (field_declaration type: (primitive_type) name: (identifier))
       (field_declaration type: (primitive_type) name: (identifier)))))
-
-========================================
-vunja (neno la zamani, bado linakubalika)
-========================================
-
-w0 f() {
-    wakati (1) { vunja; }
-}
-
----
-
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (while_statement
-        condition: (number_literal)
-        body: (block (break_statement))))))
