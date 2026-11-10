@@ -7,21 +7,21 @@
 //     HALISI ya kileksia: kwa, kama, hali, fanya, sivyo, tenga, acha,
 //     wakati, muundo, chagua, achilia, rudisha, husisha, endelea --
 //     tenga NI neno muhimu licha ya hati kudai vinginevyo, imethibitishwa
-//     kwa kusoma chanzo cha lexer moja kwa moja).
+//     kwa kusoma chanzo cha msomaji moja kwa moja).
 //   - msingi/mkusanyaji/msambazaji.swa -- ni_aina_msingi/changanua_aina_tokeni
 //     (aina za msingi: familia [n|a|d|b|w] (herufi ndogo, kipendwa tangu
 //     lugha-swa/swa#225) AU [N|A|D|B|W] (herufi kubwa, bado inakubalika,
 //     aina MOJA HASA -- N32 na n32 ni sawa kabisa) ikifuatiwa na tarakimu).
 //   - jaribio_k11a_maoni_ya_kijiuzi.swa -- uthibitisho kuwa maoni ya
 //     /* */ YANAWEZA kupachikana (nested) kwenye mnyororo wa uzalishaji
-//     (stage1) -- tofauti na C, ambako haiwezekani.
+//     (kamili) -- tofauti na C, ambako haiwezekani.
 
 module.exports = grammar({
   name: "swa",
 
-  extras: ($) => [/\s/, $.comment],
+  extras: ($) => [/\s/, $.maoni],
 
-  word: ($) => $.identifier,
+  word: ($) => $.kitambulisho,
 
   // MUHIMU: `Jina* x;` (tangazo la kielekezi) na `x * y;` (usemi wa
   // kuzidisha) hazitofautiani kisintaksia kwa herufi chache za kwanza
@@ -33,36 +33,33 @@ module.exports = grammar({
   // sawa na jinsi tree-sitter-c inavyoshughulikia mkanganyiko uleule
   // wa "typedef name" dhidi ya kuzidisha.
   conflicts: ($) => [
-    [$._base_type, $._expression],
+    [$._aina_ya_msingi, $._usemi],
+    [$._usemi, $.orodha_ya_hoja],
   ],
 
   rules: {
-    source_file: ($) => repeat($._top_level_item),
+    programu: ($) => repeat($._kipengele_cha_juu),
 
-    _top_level_item: ($) =>
+    _kipengele_cha_juu: ($) =>
       choice(
-        $.husisha_declaration,
-        $.struct_declaration,
-        $.function_declaration,
-        $.function_prototype,
-        $.global_variable_declaration,
+        $.tangazo_la_husisha,
+        $.tangazo_la_muundo,
+        $.tangazo_la_kazi,
+        $.tangazo_la_mbele,
+        $.tangazo_la_ulimwengu,
+        $.tangazo_la_nje,
       ),
 
     // -----------------------------------------------------------
-    // husisha { faili.swa }  /  husisha C::jina
+    // husisha { faili.swa }  (Swa haina kiungo cha C: husisha C:: ni kosa)
     // -----------------------------------------------------------
-    husisha_declaration: ($) =>
-      choice(
-        seq("husisha", "{", field("path", $.husisha_path), "}"),
-        seq("husisha", field("c_link", $.c_link)),
-      ),
+    tangazo_la_husisha: ($) =>
+      seq("husisha", "{", field("njia", $.njia_ya_husisha), "}"),
 
     // Njia ya faili: kitambulisho/kitambulisho.swa -- inaruhusu '/' na
     // '.', pamoja na njia za jamaa (../../msingi/...) zinazotumika
     // HALISI kwenye majaribio ya maendeleo (majaribio/msambazaji/*.swa).
-    husisha_path: (_) => /[a-zA-Z_.][a-zA-Z0-9_./-]*/,
-
-    c_link: (_) => /C::[a-zA-Z_][a-zA-Z0-9_]*/,
+    njia_ya_husisha: (_) => /[a-zA-Z_.][a-zA-Z0-9_./-]*/,
 
     // -----------------------------------------------------------
     // muundo Jina { sehemu*; };
@@ -72,72 +69,110 @@ module.exports = grammar({
     // huandika kwa ';', lakini jaribio_k13_anwani_sehemu_kupitia_
     // kielekezi_kama_hoja.swa (jaribio linalotarajiwa kufaulu, si
     // KATA) linaiacha na bado linakusanya/kuendesha sahihi.
-    struct_declaration: ($) =>
+    tangazo_la_muundo: ($) =>
       seq(
         "muundo",
-        field("name", $.identifier),
-        field("body", $.field_declaration_list),
+        field("jina", $.kitambulisho),
+        field("maudhui", $.orodha_ya_sehemu),
         optional(";"),
       ),
 
-    field_declaration_list: ($) =>
-      seq("{", repeat($.field_declaration), "}"),
+    orodha_ya_sehemu: ($) =>
+      seq("{", repeat($.tangazo_la_sehemu), "}"),
 
-    field_declaration: ($) =>
+    tangazo_la_sehemu: ($) =>
       seq(
-        field("type", $._type),
-        field("name", $.identifier),
-        optional(seq("[", field("size", $._expression), "]")),
+        field("aina", $._aina),
+        field("jina", $.kitambulisho),
+        optional(seq("[", field("ukubwa", $._usemi), "]")),
         ";",
       ),
 
     // -----------------------------------------------------------
     // <aina> <jina>(<vigezo>) { <mwili> }
     // -----------------------------------------------------------
-    function_declaration: ($) =>
+    tangazo_la_kazi: ($) =>
       seq(
-        field("return_type", $._type),
-        field("name", $.identifier),
-        field("parameters", $.parameter_list),
-        field("body", $.block),
+        field("aina_ya_kurudi", $._aina),
+        field("jina", $.kitambulisho),
+        field("vigezo", $.orodha_ya_vigezo),
+        field("maudhui", $.ubeti),
       ),
 
     // Tangazo la mbele (forward declaration) -- saini pekee, bila
     // mwili, ikiishia kwa ';'. Halisi kwenye chanzo cha mkusanyaji
     // mwenyewe (msambazaji.swa) kwa vitenzi-njia vinavyojirudiana
     // (mutual recursion) kati ya kazi za uchanganuzi.
-    function_prototype: ($) =>
+    tangazo_la_mbele: ($) =>
       seq(
-        field("return_type", $._type),
-        field("name", $.identifier),
-        field("parameters", $.parameter_list),
+        field("aina_ya_kurudi", $._aina),
+        field("jina", $.kitambulisho),
+        field("vigezo", $.orodha_ya_vigezo),
         ";",
       ),
 
-    parameter_list: ($) =>
-      seq("(", commaSep($.parameter), ")"),
+    orodha_ya_vigezo: ($) =>
+      seq("(", commaSep($.kigezo), ")"),
 
-    parameter: ($) =>
-      seq(field("type", $._type), field("name", $.identifier)),
+    kigezo: ($) =>
+      seq(field("aina", $._aina), field("jina", $.kitambulisho)),
+
+    // -----------------------------------------------------------
+    // Kiolesura cha mashine (hati/kiolesura-cha-mashine.md):
+    //   nje "libm.so.6" { d64 kosini(d64 pembe) = "cos"; }
+    //   nje "js" { n32 kiwango = "kiwango"; }
+    // Jina la Kiswahili upande wa kushoto; alama ya maktaba (data yao) ni
+    // mfuatano upande wa kulia. "..." ni hoja za ziada za kazi ya C.
+    // -----------------------------------------------------------
+    tangazo_la_nje: ($) =>
+      seq(
+        "nje",
+        field("maktaba", $.mfuatano),
+        "{",
+        repeat(choice($.kazi_ya_nje, $.data_ya_nje)),
+        "}",
+      ),
+
+    kazi_ya_nje: ($) =>
+      seq(
+        field("aina_ya_kurudi", $._aina),
+        field("jina", $.kitambulisho),
+        field("vigezo", $.orodha_ya_vigezo_ya_nje),
+        optional(seq("=", field("alama", $.mfuatano))),
+        ";",
+      ),
+
+    data_ya_nje: ($) =>
+      seq(
+        field("aina", $._aina),
+        field("jina", $.kitambulisho),
+        optional(seq("=", field("alama", $.mfuatano))),
+        ";",
+      ),
+
+    orodha_ya_vigezo_ya_nje: ($) =>
+      seq("(", commaSep(choice($.kigezo, $.hoja_za_ziada)), ")"),
+
+    hoja_za_ziada: (_) => "...",
 
     // -----------------------------------------------------------
     // Kigezo cha ulimwengu: <aina> <jina> = <usemi>; au safu
     // -----------------------------------------------------------
-    global_variable_declaration: ($) =>
+    tangazo_la_ulimwengu: ($) =>
       seq(
-        field("type", $._type),
-        field("name", $.identifier),
-        optional(seq("[", field("size", $._expression), "]")),
-        optional(seq("=", field("value", $._expression))),
+        field("aina", $._aina),
+        field("jina", $.kitambulisho),
+        optional(seq("[", field("ukubwa", $._usemi), "]")),
+        optional(seq("=", field("thamani", $._usemi))),
         ";",
       ),
 
     // -----------------------------------------------------------
     // Aina: [n|a|d|b|w][0-9]+ (herufi ndogo au kubwa), T*, T[n], muundo
     // -----------------------------------------------------------
-    _type: ($) => seq($._base_type, repeat("*")),
+    _aina: ($) => seq($._aina_ya_msingi, repeat("*")),
 
-    _base_type: ($) => choice($.primitive_type, $.identifier),
+    _aina_ya_msingi: ($) => choice($.aina_ya_msingi, $.kitambulisho),
 
     // MUHIMU: upana halisi TU (8/16/32/64 kwa n/a; 1/8/16/32/64 kwa b;
     // 32/64 kwa d; 0/8/16/32/64 kwa w -- angalia hati/vipimo-vya-lugha.md
@@ -149,32 +184,32 @@ module.exports = grammar({
     // majaribio/programu/jaribio_k14_maktaba_zaidi.swa). Kuzuia kwa
     // upana HALISI TU kunaondoa mgongano kwa karibu visa vyote (a1/a2/
     // a3/a5.../n1/n2.../d1-d31/d33-d63/w1-w7/w9-w15... havitakuwa
-    // primitive_type kamwe) -- b1 pekee inabaki mgongano wa kweli
+    // aina_ya_msingi kamwe) -- b1 pekee inabaki mgongano wa kweli
     // (b1 NI upana sahihi kwa familia B, boolean), inayotatuliwa na
-    // dynamic precedence ya local_variable_declaration (angalia chini).
-    primitive_type: (_) =>
-      /[nN](8|16|32|64)|[aA](8|16|32|64)|[bB](1|8|16|32|64)|[dD](32|64)|[wW](0|8|16|32|64)/,
+    // dynamic precedence ya tangazo_la_ndani (angalia chini).
+    aina_ya_msingi: (_) =>
+      /n(8|16|32|64)|a(8|16|32|64)|b(1|8|16|32|64)|d(32|64)|w(0|8|16|32|64)/,
 
     // -----------------------------------------------------------
     // Taarifa (statements)
     // -----------------------------------------------------------
-    block: ($) => seq("{", repeat($._statement), "}"),
+    ubeti: ($) => seq("{", repeat($._taarifa), "}"),
 
-    _statement: ($) =>
+    _taarifa: ($) =>
       choice(
-        $.block,
-        $.if_statement,
-        $.while_statement,
-        $.for_statement,
-        $.do_while_statement,
-        $.switch_statement,
-        $.return_statement,
-        $.break_statement,
-        $.continue_statement,
-        $.local_variable_declaration,
-        $.achilia_statement,
-        $.expression_statement,
-        $.empty_statement,
+        $.ubeti,
+        $.taarifa_ya_kama,
+        $.taarifa_ya_wakati,
+        $.taarifa_ya_kwa,
+        $.taarifa_ya_fanya,
+        $.taarifa_ya_chagua,
+        $.taarifa_ya_rudisha,
+        $.taarifa_ya_acha,
+        $.taarifa_ya_endelea,
+        $.tangazo_la_ndani,
+        $.taarifa_ya_achilia,
+        $.taarifa_ya_usemi,
+        $.taarifa_tupu,
       ),
 
     // achilia <kielekezi>; -- neno muhimu la lugha (si kazi
@@ -182,113 +217,113 @@ module.exports = grammar({
     // kielekezi. Iligunduliwa kama pengo halisi la sarufi wakati
     // wa kujaribu dhidi ya msimbo halisi wa Dominion (achilia
     // eng->wakala_wote;).
-    achilia_statement: ($) =>
-      seq("achilia", field("operand", $._expression), ";"),
+    taarifa_ya_achilia: ($) =>
+      seq("achilia", field("operanda", $._usemi), ";"),
 
     // Taarifa tupu -- ';' peke yake (semantiki ya C, halali kwenye
-    // mnyororo wa uzalishaji -- jaribio_mende_kazi_mwili_nukta.swa,
+    // mnyororo wa uzalishaji -- jaribio_hitilafu_kazi_mwili_nukta.swa,
     // "N32 f() { ; }" inatarajiwa kufaulu).
-    empty_statement: (_) => ";",
+    taarifa_tupu: (_) => ";",
 
-    if_statement: ($) =>
+    taarifa_ya_kama: ($) =>
       prec.right(
         seq(
           "kama",
           "(",
-          field("condition", $._expression),
+          field("sharti", $._usemi),
           ")",
-          field("consequence", $._statement),
-          optional(seq("sivyo", field("alternative", $._statement))),
+          field("basi", $._taarifa),
+          optional(seq("sivyo", field("sivyo", $._taarifa))),
         ),
       ),
 
-    while_statement: ($) =>
+    taarifa_ya_wakati: ($) =>
       seq(
         "wakati",
         "(",
-        field("condition", $._expression),
+        field("sharti", $._usemi),
         ")",
-        field("body", $._statement),
+        field("maudhui", $._taarifa),
       ),
 
-    for_statement: ($) =>
+    taarifa_ya_kwa: ($) =>
       seq(
         "kwa",
         "(",
-        field("init", optional($._for_clause)),
+        field("kianzio", optional($._kifungu_cha_kwa)),
         ";",
-        field("condition", optional($._expression)),
+        field("sharti", optional($._usemi)),
         ";",
-        field("update", optional($._expression)),
+        field("hatua", optional($._usemi)),
         ")",
-        field("body", $._statement),
+        field("maudhui", $._taarifa),
       ),
 
-    _for_clause: ($) => choice($._expression, $._bare_local_declaration),
+    _kifungu_cha_kwa: ($) => choice($._usemi, $._tangazo_la_ndani_tupu),
 
     // Tangazo la kigezo ndani ya kichwa cha kwa (bila ';' ya mwisho)
-    _bare_local_declaration: ($) =>
+    _tangazo_la_ndani_tupu: ($) =>
       seq(
-        field("type", $._type),
-        field("name", $.identifier),
-        optional(seq("=", field("value", $._expression))),
+        field("aina", $._aina),
+        field("jina", $.kitambulisho),
+        optional(seq("=", field("thamani", $._usemi))),
       ),
 
-    do_while_statement: ($) =>
+    taarifa_ya_fanya: ($) =>
       seq(
         "fanya",
-        field("body", $.block),
+        field("maudhui", $.ubeti),
         "wakati",
         "(",
-        field("condition", $._expression),
+        field("sharti", $._usemi),
         ")",
         ";",
       ),
 
-    switch_statement: ($) =>
+    taarifa_ya_chagua: ($) =>
       seq(
         "chagua",
         "(",
-        field("value", $._expression),
+        field("thamani", $._usemi),
         ")",
         "{",
-        repeat($.switch_case),
+        repeat($.hali),
         "}",
       ),
 
-    switch_case: ($) =>
+    hali: ($) =>
       choice(
-        seq("hali", field("label", $._expression), ":", repeat($._statement)),
-        seq("sivyo", ":", repeat($._statement)),
+        seq("hali", field("thamani_ya_hali", $._usemi), ":", repeat($._taarifa)),
+        seq("sivyo", ":", repeat($._taarifa)),
       ),
 
-    return_statement: ($) =>
-      seq("rudisha", optional(field("value", $._expression)), ";"),
+    taarifa_ya_rudisha: ($) =>
+      seq("rudisha", optional(field("thamani", $._usemi)), ";"),
 
     // acha ("simama, acha"): toka kwenye mzunguko
-    break_statement: (_) => seq("acha", ";"),
+    taarifa_ya_acha: (_) => seq("acha", ";"),
 
-    continue_statement: (_) => seq("endelea", ";"),
+    taarifa_ya_endelea: (_) => seq("endelea", ";"),
 
-    local_variable_declaration: ($) =>
+    tangazo_la_ndani: ($) =>
       prec.dynamic(
         1,
         seq(
-          field("type", $._type),
-          $.declarator,
-          repeat(seq(",", $.declarator)),
+          field("aina", $._aina),
+          $.jina_linalotangazwa,
+          repeat(seq(",", $.jina_linalotangazwa)),
           ";",
         ),
       ),
 
-    declarator: ($) =>
+    jina_linalotangazwa: ($) =>
       seq(
-        field("name", $.identifier),
-        optional(seq("[", field("size", $._expression), "]")),
-        optional(seq("=", field("value", $._expression))),
+        field("jina", $.kitambulisho),
+        optional(seq("[", field("ukubwa", $._usemi), "]")),
+        optional(seq("=", field("thamani", $._usemi))),
       ),
 
-    expression_statement: ($) => seq($._expression, ";"),
+    taarifa_ya_usemi: ($) => seq($._usemi, ";"),
 
     // -----------------------------------------------------------
     // Usemi -- utangulizi kutoka hati/vipimo-vya-lugha.md sehemu 4
@@ -297,34 +332,36 @@ module.exports = grammar({
     //   12: * / %   11: + -   10: << >>   9: < > <= >=   8: == !=
     //   7: &   6: ^   5: |   4: &&   3: ||   2: ?:   1: =
     // -----------------------------------------------------------
-    _expression: ($) =>
+    _usemi: ($) =>
       choice(
-        $.assignment_expression,
-        $.ternary_expression,
-        $.binary_expression,
-        $.unary_expression,
-        $.call_expression,
-        $.field_expression,
-        $.subscript_expression,
-        $.address_expression,
-        $.dereference_expression,
-        $.parenthesized_expression,
-        $.identifier,
-        $.number_literal,
-        $.char_literal,
-        $.string_literal,
+        $.ugawaji,
+        $.usemi_wa_masharti,
+        $.usemi_wa_pande_mbili,
+        $.usemi_wa_upande_mmoja,
+        $.wito,
+        $.usemi_wa_sehemu,
+        $.usemi_wa_fahirisi,
+        $.usemi_wa_anwani,
+        $.usemi_wa_kufikia,
+        $.usemi_wa_mabano,
+        $.kitambulisho,
+        // jina la aina ni kitambulisho mahali ambapo aina haitarajiwi
+        // (b1 = b1 + 1; -- jaribio_herufi_ndogo_kitambulisho_sio_aina)
+        alias($.aina_ya_msingi, $.kitambulisho),
+        $.nambari,
+        $.mfuatano,
       ),
 
     // MUHIMU: += -= *= /= %= &= |= ^= <<= >>= zote zinafanya kazi
-    // HALISI kwenye stage1 (jaribio_mende_18_kiwanja_biti.swa, "0" =
+    // HALISI kwenye kamili (jaribio_hitilafu_18_kiwanja_biti.swa, "0" =
     // inapita) -- hati/vipimo-vya-lugha.md 2.5 (orodha ya ishara)
     // IMEPITWA NA WAKATI, haitaji hizi, lakini chanzo halisi/jaribio
     // linathibitisha zinatumika kikamilifu.
-    assignment_expression: ($) =>
+    ugawaji: ($) =>
       prec.right(
         1,
         seq(
-          field("left", $._expression),
+          field("kushoto", $._usemi),
           field(
             "operator",
             choice(
@@ -341,23 +378,23 @@ module.exports = grammar({
               ">>=",
             ),
           ),
-          field("right", $._expression),
+          field("kulia", $._usemi),
         ),
       ),
 
-    ternary_expression: ($) =>
+    usemi_wa_masharti: ($) =>
       prec.right(
         2,
         seq(
-          field("condition", $._expression),
+          field("sharti", $._usemi),
           "?",
-          field("consequence", $._expression),
+          field("basi", $._usemi),
           ":",
-          field("alternative", $._expression),
+          field("sivyo", $._usemi),
         ),
       ),
 
-    binary_expression: ($) => {
+    usemi_wa_pande_mbili: ($) => {
       const table = [
         [3, "||"],
         [4, "&&"],
@@ -375,33 +412,33 @@ module.exports = grammar({
           prec.left(
             precedence,
             seq(
-              field("left", $._expression),
-              field("operator", operator),
-              field("right", $._expression),
+              field("kushoto", $._usemi),
+              field("mwendeshaji", operator),
+              field("kulia", $._usemi),
             ),
           ),
         ),
       );
     },
 
-    unary_expression: ($) =>
+    usemi_wa_upande_mmoja: ($) =>
       prec(
         13,
-        seq(field("operator", choice("!", "~", "-")), field("operand", $._expression)),
+        seq(field("mwendeshaji", choice("!", "~", "-")), field("operanda", $._usemi)),
       ),
 
-    address_expression: ($) =>
-      prec(13, seq("&", field("operand", $._expression))),
+    usemi_wa_anwani: ($) =>
+      prec(13, seq("&", field("operanda", $._usemi))),
 
-    dereference_expression: ($) =>
-      prec(13, seq("*", field("operand", $._expression))),
+    usemi_wa_kufikia: ($) =>
+      prec(13, seq("*", field("operanda", $._usemi))),
 
-    call_expression: ($) =>
+    wito: ($) =>
       prec(
         14,
         seq(
-          field("function", $._expression),
-          field("arguments", $.argument_list),
+          field("kazi", $._usemi),
+          field("hoja", $.orodha_ya_hoja),
         ),
       ),
 
@@ -409,87 +446,73 @@ module.exports = grammar({
     // maneno muhimu -- kuzifanya "keyword-like" literals kwenye
     // sarufi hii KULIVUNJA uchanganuzi wa msambazaji.swa halisi,
     // kwa sababu tree-sitter huchukua neno lolote la herufi
-    // lililoandikwa moja kwa moja (bila token()) kama "keyword
-    // extraction" yenye kipaumbele zaidi ya identifier -- na "urefu"
-    // ni jina la kawaida la kigezo/paramu (maana yake ni "length")
+    // lililoandikwa moja kwa moja (bila token()) kama neno muhimu
+    // lenye kipaumbele zaidi ya kitambulisho -- na "urefu"
+    // ni jina la kawaida la kigezo (maana yake ni urefu wa kitu)
     // linalotumika mahali pengi kama thamani ya kawaida, si kama
     // wito wa kazi hii. Badala yake, hoja ya kwanza ya wito WOWOTE
     // inaruhusiwa kuwa jina la aina la msingi moja kwa moja (mfano
     // "n32" kwenye ukubwa(n32)) -- hii ni uwezekano wa kisintaksia
     // tu, si ukaguzi wa kisemantiki wa jina la kazi (huo ni kazi ya
     // mkusanyaji, si ya sarufi hii ya highlighting).
-    argument_list: ($) =>
-      seq("(", commaSep(choice($._expression, $.primitive_type)), ")"),
+    orodha_ya_hoja: ($) =>
+      seq("(", commaSep(choice($._usemi, $.aina_ya_msingi)), ")"),
 
-    field_expression: ($) =>
+    usemi_wa_sehemu: ($) =>
       prec(
         14,
         seq(
-          field("object", $._expression),
-          field("operator", choice(".", "->")),
-          field("field", $.identifier),
+          field("kitu", $._usemi),
+          field("mwendeshaji", choice(".", "->")),
+          field("sehemu", $.kitambulisho),
         ),
       ),
 
-    subscript_expression: ($) =>
+    usemi_wa_fahirisi: ($) =>
       prec(
         14,
         seq(
-          field("object", $._expression),
+          field("kitu", $._usemi),
           "[",
-          field("index", $._expression),
+          field("fahirisi", $._usemi),
           "]",
         ),
       ),
 
-    parenthesized_expression: ($) => seq("(", $._expression, ")"),
+    usemi_wa_mabano: ($) => seq("(", $._usemi, ")"),
 
     // -----------------------------------------------------------
     // Vitambulisho, herufi/nambari, mfuatano, maoni
     // (hati/vipimo-vya-lugha.md 2.1: a-z, A-Z, _ mwanzoni; tarakimu
     // baadaye)
     // -----------------------------------------------------------
-    identifier: (_) => /[a-zA-Z_][a-zA-Z0-9_]*/,
+    kitambulisho: (_) => /[a-zA-Z_][a-zA-Z0-9_]*/,
 
-    number_literal: (_) => /[0-9]+(\.[0-9]+)?/,
+    nambari: (_) => /[0-9]+(\.[0-9]+)?/,
 
-    // Halisi ya herufi moja -- inasomwa na msomaji.swa (tokeni_soma_herufi)
-    // kama TOKENI_NAMBARI (thamani ya baiti yake, sio aina tofauti kama
-    // C ya kweli). Utorokaji: \xNN (heksadesimali, tarakimu 1-2) au
-    // herufi YOYOTE moja baada ya '\' (\n \t \r \\ \0 \' n.k. -- lexer
-    // ni ya jumla, si orodha maalum ya utorokaji unaokubalika).
-    char_literal: (_) =>
-      token(
-        seq(
-          "'",
-          choice(seq("\\", "x", /[0-9a-fA-F]{0,2}/), seq("\\", /./), /[^'\\]/),
-          "'",
-        ),
-      ),
-
-    // MUHIMU: mfuatano LAZIMA uwe token MOJA HALISI (token()), si
-    // mnyororo wa tokeni ndogo -- vinginevyo lexer ya tree-sitter
+    // MUHIMU: mfuatano LAZIMA uwe tokeni MOJA HALISI (token()), si
+    // mfululizo wa tokeni ndogo -- vinginevyo msomaji wa tree-sitter
     // ingejaribu kulinganisha herufi/maneno ndani ya mfuatano (mfano
     // "HITILAFU" ndani ya `andika_kosa("; DEB: HITILAFU ...")`)
-    // dhidi ya sheria za identifier/neno-muhimu badala ya kuzisoma
+    // dhidi ya sheria za kitambulisho/neno-muhimu badala ya kuzisoma
     // kama sehemu ya mfuatano -- iligunduliwa kwa jaribio HALISI
     // dhidi ya msambazaji.swa halisi (mfuatano zenye maneno ya
     // Kiingereza kama HITILAFU/DEB ndani yake zilivunja uchanganuzi).
     // \% pia ni utorokaji halisi (hati/uthibitisho-wa-lugha.md 8.2,
     // jaribio_t94_asilimia_utorokaji.swa) -- si \n/\\/\t/\" tu.
-    string_literal: (_) =>
+    mfuatano: (_) =>
       token(seq('"', repeat(choice(/\\[n\\t"%]/, /[^"\\\n]/)), '"')),
 
-    comment: (_) =>
+    maoni: (_) =>
       token(
         choice(
           seq("//", /.*/),
           // Maoni ya /* */ yanaweza kupachikana (nested) kwenye
-          // mnyororo wa uzalishaji (stage1) -- imethibitishwa na
+          // mnyororo wa uzalishaji (kamili) -- imethibitishwa na
           // jaribio_k11a_maoni_ya_kijiuzi.swa (KINA CHA 3: "/* a /* b
-          // /* c */ */ d */"). Tree-sitter's `token()` haiwezi
+          // /* c */ */ d */"). `token()` ya tree-sitter haiwezi
           // kuwakilisha upachikaji wa KWELI usio na mpaka kwa regex --
-          // hiyo ingehitaji external scanner (kazi ya baadaye halisi,
+          // hiyo ingehitaji kichunguzi cha nje (scanner.c; kazi ya baadaye halisi,
           // nje ya wigo wa toleo hili la kwanza). Sarufi hii badala
           // yake inaunga mkono kina hadi 4 kwa mkono (zaidi ya jaribio
           // pekee lililopo -- nafasi ya ziada) -- upachikaji wa kina
@@ -507,7 +530,7 @@ function commaSep(rule) {
 
 // Jenereta ya muundo wa maoni ya /* */ yanayoweza kupachikana hadi
 // kina cha 4 -- angalia maelezo kamili karibu na mahali panapotumika
-// (kazi ya "comment" kwenye rules). Nambari 4 imeandikwa moja kwa
+// (kazi ya "maoni" kwenye rules). Nambari 4 imeandikwa moja kwa
 // moja (SI `const` iliyotenganishwa) kwa sababu grammar() inaita kazi
 // hii MARA MOJA wakati faili linapopakiwa, kabla ya `const` yoyote
 // iliyotangazwa BAADAYE kwenye faili kupatikana (TDZ ya JavaScript).
