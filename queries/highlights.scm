@@ -12,7 +12,6 @@
 "kwa" @keyword.repeat
 "fanya" @keyword.repeat
 "acha" @keyword.control
-"vunja" @keyword.control
 "endelea" @keyword.control
 "chagua" @keyword.conditional
 "hali" @keyword.conditional
