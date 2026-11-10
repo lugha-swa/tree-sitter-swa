@@ -7,9 +7,9 @@ husisha { ../../msingi/maktaba/kumbukumbu.swa }
 
 ---
 
-(source_file
-  (husisha_declaration path: (husisha_path))
-  (husisha_declaration path: (husisha_path)))
+(programu
+  (tangazo_la_husisha njia: (njia_ya_husisha))
+  (tangazo_la_husisha njia: (njia_ya_husisha)))
 
 ========================================
 muundo (struct) na sehemu zake
@@ -22,27 +22,27 @@ muundo Nukta {
 
 ---
 
-(source_file
-  (struct_declaration
-    name: (identifier)
-    body: (field_declaration_list
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier)))))
+(programu
+  (tangazo_la_muundo
+    jina: (kitambulisho)
+    maudhui: (orodha_ya_sehemu
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho)))))
 
 ========================================
 muundo bila ';' ya mwisho (hiari kwa vitendo)
 ========================================
 
-muundo P { N32 a; N32 b; }
+muundo P { n32 a; n32 b; }
 
 ---
 
-(source_file
-  (struct_declaration
-    name: (identifier)
-    body: (field_declaration_list
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier)))))
+(programu
+  (tangazo_la_muundo
+    jina: (kitambulisho)
+    maudhui: (orodha_ya_sehemu
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho)))))
 
 ========================================
 tangazo la kazi (herufi ndogo)
@@ -54,30 +54,30 @@ n32 jumla(n32 a, n32 b) {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list
-      (parameter type: (primitive_type) name: (identifier))
-      (parameter type: (primitive_type) name: (identifier)))
-    body: (block
-      (return_statement value: (binary_expression left: (identifier) right: (identifier))))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo
+      (kigezo aina: (aina_ya_msingi) jina: (kitambulisho))
+      (kigezo aina: (aina_ya_msingi) jina: (kitambulisho)))
+    maudhui: (ubeti
+      (taarifa_ya_rudisha thamani: (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (kitambulisho))))))
 
 ========================================
 tangazo la mbele (function prototype)
 ========================================
 
-N32 changanua_usemi(Msambazaji* p);
+n32 changanua_usemi(Msambazaji* p);
 
 ---
 
-(source_file
-  (function_prototype
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list
-      (parameter type: (identifier) name: (identifier)))))
+(programu
+  (tangazo_la_mbele
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo
+      (kigezo aina: (kitambulisho) jina: (kitambulisho)))))
 
 ========================================
 kielekezi (pointer) na anwani/dereference
@@ -92,16 +92,16 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (address_expression operand: (identifier))))
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (dereference_expression operand: (identifier))))
-      (return_statement value: (identifier)))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani aina: (aina_ya_msingi) (jina_linalotangazwa jina: (kitambulisho) thamani: (nambari)))
+      (tangazo_la_ndani aina: (aina_ya_msingi) (jina_linalotangazwa jina: (kitambulisho) thamani: (usemi_wa_anwani operanda: (kitambulisho))))
+      (tangazo_la_ndani aina: (aina_ya_msingi) (jina_linalotangazwa jina: (kitambulisho) thamani: (usemi_wa_kufikia operanda: (kitambulisho))))
+      (taarifa_ya_rudisha thamani: (kitambulisho)))))
 
 ========================================
 kama/sivyo (if/else)
@@ -117,16 +117,16 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (if_statement
-        condition: (number_literal)
-        consequence: (block (return_statement value: (number_literal)))
-        alternative: (block (return_statement value: (number_literal)))))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (taarifa_ya_kama
+        sharti: (nambari)
+        basi: (ubeti (taarifa_ya_rudisha thamani: (nambari)))
+        sivyo: (ubeti (taarifa_ya_rudisha thamani: (nambari)))))))
 
 ========================================
 kama/sivyo bila mabano (taarifa moja)
@@ -138,16 +138,16 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (if_statement
-        condition: (number_literal)
-        consequence: (return_statement value: (number_literal))
-        alternative: (return_statement value: (number_literal))))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (taarifa_ya_kama
+        sharti: (nambari)
+        basi: (taarifa_ya_rudisha thamani: (nambari))
+        sivyo: (taarifa_ya_rudisha thamani: (nambari))))))
 
 ========================================
 wakati (while)
@@ -163,17 +163,17 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
-      (while_statement
-        condition: (binary_expression left: (identifier) right: (number_literal))
-        body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (identifier) right: (number_literal))))))
-      (return_statement value: (identifier)))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani aina: (aina_ya_msingi) (jina_linalotangazwa jina: (kitambulisho) thamani: (nambari)))
+      (taarifa_ya_wakati
+        sharti: (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (nambari))
+        maudhui: (ubeti (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (nambari))))))
+      (taarifa_ya_rudisha thamani: (kitambulisho)))))
 
 ========================================
 kwa (for)
@@ -189,21 +189,21 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
-      (for_statement
-        type: (primitive_type)
-        name: (identifier)
-        value: (number_literal)
-        condition: (binary_expression left: (identifier) right: (number_literal))
-        update: (assignment_expression left: (identifier) right: (binary_expression left: (identifier) right: (number_literal)))
-        body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (identifier) right: (identifier))))))
-      (return_statement value: (identifier)))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani aina: (aina_ya_msingi) (jina_linalotangazwa jina: (kitambulisho) thamani: (nambari)))
+      (taarifa_ya_kwa
+        aina: (aina_ya_msingi)
+        jina: (kitambulisho)
+        thamani: (nambari)
+        sharti: (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (nambari))
+        hatua: (ugawaji kushoto: (kitambulisho) kulia: (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (nambari)))
+        maudhui: (ubeti (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (kitambulisho))))))
+      (taarifa_ya_rudisha thamani: (kitambulisho)))))
 
 ========================================
 fanya (do-while)
@@ -219,17 +219,17 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
-      (do_while_statement
-        body: (block (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (identifier) right: (number_literal)))))
-        condition: (binary_expression left: (identifier) right: (number_literal)))
-      (return_statement value: (identifier)))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani aina: (aina_ya_msingi) (jina_linalotangazwa jina: (kitambulisho) thamani: (nambari)))
+      (taarifa_ya_fanya
+        maudhui: (ubeti (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (nambari)))))
+        sharti: (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_rudisha thamani: (kitambulisho)))))
 
 ========================================
 chagua (switch)
@@ -246,18 +246,18 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
-      (switch_statement
-        value: (identifier)
-        (switch_case label: (number_literal) (return_statement value: (number_literal)))
-        (switch_case label: (number_literal) (return_statement value: (number_literal)))
-        (switch_case (return_statement value: (number_literal)))))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani aina: (aina_ya_msingi) (jina_linalotangazwa jina: (kitambulisho) thamani: (nambari)))
+      (taarifa_ya_chagua
+        thamani: (kitambulisho)
+        (hali thamani_ya_hali: (nambari) (taarifa_ya_rudisha thamani: (nambari)))
+        (hali thamani_ya_hali: (nambari) (taarifa_ya_rudisha thamani: (nambari)))
+        (hali (taarifa_ya_rudisha thamani: (nambari)))))))
 
 ========================================
 acha na endelea
@@ -275,20 +275,20 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
-      (while_statement
-        condition: (number_literal)
-        body: (block
-          (if_statement condition: (binary_expression left: (identifier) right: (number_literal)) consequence: (block (break_statement)))
-          (expression_statement (assignment_expression left: (identifier) right: (binary_expression left: (identifier) right: (number_literal))))
-          (continue_statement)))
-      (return_statement value: (identifier)))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani aina: (aina_ya_msingi) (jina_linalotangazwa jina: (kitambulisho) thamani: (nambari)))
+      (taarifa_ya_wakati
+        sharti: (nambari)
+        maudhui: (ubeti
+          (taarifa_ya_kama sharti: (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (nambari)) basi: (ubeti (taarifa_ya_acha)))
+          (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (nambari))))
+          (taarifa_ya_endelea)))
+      (taarifa_ya_rudisha thamani: (kitambulisho)))))
 
 ========================================
 achilia (kuachilia kumbukumbu)
@@ -300,12 +300,12 @@ w0 futa(n32* p) {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list (parameter type: (primitive_type) name: (identifier)))
-    body: (block (achilia_statement operand: (identifier)))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo (kigezo aina: (aina_ya_msingi) jina: (kitambulisho)))
+    maudhui: (ubeti (taarifa_ya_achilia operanda: (kitambulisho)))))
 
 ========================================
 upatikanaji wa sehemu (. na ->)
@@ -319,42 +319,38 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration type: (identifier) (declarator name: (identifier)))
-      (local_variable_declaration type: (identifier) (declarator name: (identifier) value: (address_expression operand: (identifier))))
-      (return_statement
-        value: (binary_expression
-          left: (field_expression object: (identifier) field: (identifier))
-          right: (field_expression object: (identifier) field: (identifier)))))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani aina: (kitambulisho) (jina_linalotangazwa jina: (kitambulisho)))
+      (tangazo_la_ndani aina: (kitambulisho) (jina_linalotangazwa jina: (kitambulisho) thamani: (usemi_wa_anwani operanda: (kitambulisho))))
+      (taarifa_ya_rudisha
+        thamani: (usemi_wa_pande_mbili
+          kushoto: (usemi_wa_sehemu kitu: (kitambulisho) sehemu: (kitambulisho))
+          kulia: (usemi_wa_sehemu kitu: (kitambulisho) sehemu: (kitambulisho)))))))
 
 ========================================
-mfuatano (string) na herufi (char) halisi
+mfuatano halisi wenye utorokaji
 ========================================
 
 n32 anza() {
     n8* s = "habari \n\t\\\"";
-    n8 c = '\n';
-    n8 h = '\x41';
     rudisha 0;
 }
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (string_literal)))
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (char_literal)))
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (char_literal)))
-      (return_statement value: (number_literal)))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani aina: (aina_ya_msingi) (jina_linalotangazwa jina: (kitambulisho) thamani: (mfuatano)))
+      (taarifa_ya_rudisha thamani: (nambari)))))
 
 ========================================
 maoni ya mstari na ya kizuizi (pamoja na upachikaji)
@@ -367,15 +363,15 @@ n32 anza() { rudisha 0; }
 
 ---
 
-(source_file
-  (comment)
-  (comment)
-  (comment)
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block (return_statement value: (number_literal)))))
+(programu
+  (maoni)
+  (maoni)
+  (maoni)
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti (taarifa_ya_rudisha thamani: (nambari)))))
 
 ========================================
 ugawi wa kiwanja (compound assignment)
@@ -398,24 +394,24 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration type: (primitive_type) (declarator name: (identifier) value: (number_literal)))
-      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
-      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
-      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
-      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
-      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
-      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
-      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
-      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
-      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
-      (expression_statement (assignment_expression left: (identifier) right: (number_literal)))
-      (return_statement value: (identifier)))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani aina: (aina_ya_msingi) (jina_linalotangazwa jina: (kitambulisho) thamani: (nambari)))
+      (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_usemi (ugawaji kushoto: (kitambulisho) kulia: (nambari)))
+      (taarifa_ya_rudisha thamani: (kitambulisho)))))
 
 ========================================
 ukubwa()/urefu() na jina la aina kama hoja
@@ -429,23 +425,23 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration
-        type: (primitive_type)
-        (declarator
-          name: (identifier)
-          value: (call_expression
-            function: (identifier)
-            arguments: (argument_list (call_expression function: (identifier) arguments: (argument_list (primitive_type)))))))
-      (local_variable_declaration
-        type: (primitive_type)
-        (declarator name: (identifier) value: (call_expression function: (identifier) arguments: (argument_list (identifier)))))
-      (return_statement value: (identifier)))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani
+        aina: (aina_ya_msingi)
+        (jina_linalotangazwa
+          jina: (kitambulisho)
+          thamani: (wito
+            kazi: (kitambulisho)
+            hoja: (orodha_ya_hoja (wito kazi: (kitambulisho) hoja: (orodha_ya_hoja (aina_ya_msingi)))))))
+      (tangazo_la_ndani
+        aina: (aina_ya_msingi)
+        (jina_linalotangazwa jina: (kitambulisho) thamani: (wito kazi: (kitambulisho) hoja: (orodha_ya_hoja (kitambulisho)))))
+      (taarifa_ya_rudisha thamani: (kitambulisho)))))
 
 ========================================
 taarifa tupu (empty statement)
@@ -455,12 +451,12 @@ n32 f() { ; }
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block (empty_statement))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti (taarifa_tupu))))
 
 ========================================
 safu (array) ya miundo na fahirisi
@@ -474,26 +470,26 @@ n32 anza() {
 
 ---
 
-(source_file
-  (function_declaration
-    return_type: (primitive_type)
-    name: (identifier)
-    parameters: (parameter_list)
-    body: (block
-      (local_variable_declaration type: (identifier) (declarator name: (identifier) size: (number_literal)))
-      (expression_statement
-        (assignment_expression
-          left: (field_expression
-            object: (subscript_expression object: (identifier) index: (number_literal))
-            field: (identifier))
-          right: (number_literal)))
-      (return_statement
-        value: (field_expression
-          object: (parenthesized_expression (binary_expression left: (identifier) right: (number_literal)))
-          field: (identifier))))))
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (tangazo_la_ndani aina: (kitambulisho) (jina_linalotangazwa jina: (kitambulisho) ukubwa: (nambari)))
+      (taarifa_ya_usemi
+        (ugawaji
+          kushoto: (usemi_wa_sehemu
+            kitu: (usemi_wa_fahirisi kitu: (kitambulisho) fahirisi: (nambari))
+            sehemu: (kitambulisho))
+          kulia: (nambari)))
+      (taarifa_ya_rudisha
+        thamani: (usemi_wa_sehemu
+          kitu: (usemi_wa_mabano (usemi_wa_pande_mbili kushoto: (kitambulisho) kulia: (nambari)))
+          sehemu: (kitambulisho))))))
 
 ========================================
-aina za msingi: familia zote (n a d b w), herufi kubwa na ndogo
+aina za msingi: familia zote (n a d b w), herufi ndogo
 ========================================
 
 muundo Aina {
@@ -509,29 +505,79 @@ muundo Aina {
     b64 d2;
     w0 e1;
     w64 e2;
-    N32 f1;
-    D64 f2;
-    W0 f3;
 };
 
 ---
 
-(source_file
-  (struct_declaration
-    name: (identifier)
-    body: (field_declaration_list
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier))
-      (field_declaration type: (primitive_type) name: (identifier)))))
+(programu
+  (tangazo_la_muundo
+    jina: (kitambulisho)
+    maudhui: (orodha_ya_sehemu
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho))
+      (tangazo_la_sehemu aina: (aina_ya_msingi) jina: (kitambulisho)))))
+
+========================================
+kiolesura cha mashine (nje)
+========================================
+
+nje "libm.so.6" {
+    d64 kosini(d64 pembe) = "cos";
+    n32 chapa(n8* umbo, ...) = "printf";
+    n32 kiwango = "kiwango";
+}
+
+---
+
+(programu
+  (tangazo_la_nje
+    maktaba: (mfuatano)
+    (kazi_ya_nje
+      aina_ya_kurudi: (aina_ya_msingi)
+      jina: (kitambulisho)
+      vigezo: (orodha_ya_vigezo_ya_nje
+        (kigezo aina: (aina_ya_msingi) jina: (kitambulisho)))
+      alama: (mfuatano))
+    (kazi_ya_nje
+      aina_ya_kurudi: (aina_ya_msingi)
+      jina: (kitambulisho)
+      vigezo: (orodha_ya_vigezo_ya_nje
+        (kigezo aina: (aina_ya_msingi) jina: (kitambulisho))
+        (hoja_za_ziada))
+      alama: (mfuatano))
+    (data_ya_nje
+      aina: (aina_ya_msingi)
+      jina: (kitambulisho)
+      alama: (mfuatano))))
+
+========================================
+jina la aina kama kitambulisho
+========================================
+
+w0 f() {
+    b1 = b1 + 1;
+}
+
+---
+
+(programu
+  (tangazo_la_kazi
+    aina_ya_kurudi: (aina_ya_msingi)
+    jina: (kitambulisho)
+    vigezo: (orodha_ya_vigezo)
+    maudhui: (ubeti
+      (taarifa_ya_usemi
+        (ugawaji
+          kushoto: (kitambulisho)
+          kulia: (usemi_wa_pande_mbili
+            kushoto: (kitambulisho)
+            kulia: (nambari)))))))

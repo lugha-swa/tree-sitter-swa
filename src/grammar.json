@@ -1,96 +1,74 @@
 {
   "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "swa",
-  "word": "identifier",
+  "word": "kitambulisho",
   "rules": {
-    "source_file": {
+    "programu": {
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "_top_level_item"
+        "name": "_kipengele_cha_juu"
       }
     },
-    "_top_level_item": {
+    "_kipengele_cha_juu": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "husisha_declaration"
+          "name": "tangazo_la_husisha"
         },
         {
           "type": "SYMBOL",
-          "name": "struct_declaration"
+          "name": "tangazo_la_muundo"
         },
         {
           "type": "SYMBOL",
-          "name": "function_declaration"
+          "name": "tangazo_la_kazi"
         },
         {
           "type": "SYMBOL",
-          "name": "function_prototype"
+          "name": "tangazo_la_mbele"
         },
         {
           "type": "SYMBOL",
-          "name": "global_variable_declaration"
+          "name": "tangazo_la_ulimwengu"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tangazo_la_nje"
         }
       ]
     },
-    "husisha_declaration": {
-      "type": "CHOICE",
+    "tangazo_la_husisha": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "husisha"
-            },
-            {
-              "type": "STRING",
-              "value": "{"
-            },
-            {
-              "type": "FIELD",
-              "name": "path",
-              "content": {
-                "type": "SYMBOL",
-                "name": "husisha_path"
-              }
-            },
-            {
-              "type": "STRING",
-              "value": "}"
-            }
-          ]
+          "type": "STRING",
+          "value": "husisha"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "husisha"
-            },
-            {
-              "type": "FIELD",
-              "name": "c_link",
-              "content": {
-                "type": "SYMBOL",
-                "name": "c_link"
-              }
-            }
-          ]
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "njia",
+          "content": {
+            "type": "SYMBOL",
+            "name": "njia_ya_husisha"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
-    "husisha_path": {
+    "njia_ya_husisha": {
       "type": "PATTERN",
       "value": "[a-zA-Z_.][a-zA-Z0-9_./-]*"
     },
-    "c_link": {
-      "type": "PATTERN",
-      "value": "C::[a-zA-Z_][a-zA-Z0-9_]*"
-    },
-    "struct_declaration": {
+    "tangazo_la_muundo": {
       "type": "SEQ",
       "members": [
         {
@@ -99,18 +77,18 @@
         },
         {
           "type": "FIELD",
-          "name": "name",
+          "name": "jina",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "kitambulisho"
           }
         },
         {
           "type": "FIELD",
-          "name": "body",
+          "name": "maudhui",
           "content": {
             "type": "SYMBOL",
-            "name": "field_declaration_list"
+            "name": "orodha_ya_sehemu"
           }
         },
         {
@@ -127,7 +105,7 @@
         }
       ]
     },
-    "field_declaration_list": {
+    "orodha_ya_sehemu": {
       "type": "SEQ",
       "members": [
         {
@@ -138,7 +116,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "field_declaration"
+            "name": "tangazo_la_sehemu"
           }
         },
         {
@@ -147,23 +125,23 @@
         }
       ]
     },
-    "field_declaration": {
+    "tangazo_la_sehemu": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "type",
+          "name": "aina",
           "content": {
             "type": "SYMBOL",
-            "name": "_type"
+            "name": "_aina"
           }
         },
         {
           "type": "FIELD",
-          "name": "name",
+          "name": "jina",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "kitambulisho"
           }
         },
         {
@@ -178,10 +156,10 @@
                 },
                 {
                   "type": "FIELD",
-                  "name": "size",
+                  "name": "ukubwa",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "_usemi"
                   }
                 },
                 {
@@ -201,68 +179,68 @@
         }
       ]
     },
-    "function_declaration": {
+    "tangazo_la_kazi": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "return_type",
+          "name": "aina_ya_kurudi",
           "content": {
             "type": "SYMBOL",
-            "name": "_type"
+            "name": "_aina"
           }
         },
         {
           "type": "FIELD",
-          "name": "name",
+          "name": "jina",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "kitambulisho"
           }
         },
         {
           "type": "FIELD",
-          "name": "parameters",
+          "name": "vigezo",
           "content": {
             "type": "SYMBOL",
-            "name": "parameter_list"
+            "name": "orodha_ya_vigezo"
           }
         },
         {
           "type": "FIELD",
-          "name": "body",
+          "name": "maudhui",
           "content": {
             "type": "SYMBOL",
-            "name": "block"
+            "name": "ubeti"
           }
         }
       ]
     },
-    "function_prototype": {
+    "tangazo_la_mbele": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "return_type",
+          "name": "aina_ya_kurudi",
           "content": {
             "type": "SYMBOL",
-            "name": "_type"
+            "name": "_aina"
           }
         },
         {
           "type": "FIELD",
-          "name": "name",
+          "name": "jina",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "kitambulisho"
           }
         },
         {
           "type": "FIELD",
-          "name": "parameters",
+          "name": "vigezo",
           "content": {
             "type": "SYMBOL",
-            "name": "parameter_list"
+            "name": "orodha_ya_vigezo"
           }
         },
         {
@@ -271,7 +249,7 @@
         }
       ]
     },
-    "parameter_list": {
+    "orodha_ya_vigezo": {
       "type": "SEQ",
       "members": [
         {
@@ -286,7 +264,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "parameter"
+                  "name": "kigezo"
                 },
                 {
                   "type": "REPEAT",
@@ -299,7 +277,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "parameter"
+                        "name": "kigezo"
                       }
                     ]
                   }
@@ -317,44 +295,261 @@
         }
       ]
     },
-    "parameter": {
+    "kigezo": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "type",
+          "name": "aina",
           "content": {
             "type": "SYMBOL",
-            "name": "_type"
+            "name": "_aina"
           }
         },
         {
           "type": "FIELD",
-          "name": "name",
+          "name": "jina",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "kitambulisho"
           }
         }
       ]
     },
-    "global_variable_declaration": {
+    "tangazo_la_nje": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "nje"
+        },
+        {
+          "type": "FIELD",
+          "name": "maktaba",
+          "content": {
+            "type": "SYMBOL",
+            "name": "mfuatano"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "kazi_ya_nje"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "data_ya_nje"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "kazi_ya_nje": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "type",
+          "name": "aina_ya_kurudi",
           "content": {
             "type": "SYMBOL",
-            "name": "_type"
+            "name": "_aina"
           }
         },
         {
           "type": "FIELD",
-          "name": "name",
+          "name": "jina",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "kitambulisho"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "vigezo",
+          "content": {
+            "type": "SYMBOL",
+            "name": "orodha_ya_vigezo_ya_nje"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "FIELD",
+                  "name": "alama",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "mfuatano"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "data_ya_nje": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "aina",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_aina"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "jina",
+          "content": {
+            "type": "SYMBOL",
+            "name": "kitambulisho"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "FIELD",
+                  "name": "alama",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "mfuatano"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "orodha_ya_vigezo_ya_nje": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "kigezo"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "hoja_za_ziada"
+                    }
+                  ]
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "kigezo"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "hoja_za_ziada"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "hoja_za_ziada": {
+      "type": "STRING",
+      "value": "..."
+    },
+    "tangazo_la_ulimwengu": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "aina",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_aina"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "jina",
+          "content": {
+            "type": "SYMBOL",
+            "name": "kitambulisho"
           }
         },
         {
@@ -369,10 +564,10 @@
                 },
                 {
                   "type": "FIELD",
-                  "name": "size",
+                  "name": "ukubwa",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "_usemi"
                   }
                 },
                 {
@@ -398,10 +593,10 @@
                 },
                 {
                   "type": "FIELD",
-                  "name": "value",
+                  "name": "thamani",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "_usemi"
                   }
                 }
               ]
@@ -417,12 +612,12 @@
         }
       ]
     },
-    "_type": {
+    "_aina": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_base_type"
+          "name": "_aina_ya_msingi"
         },
         {
           "type": "REPEAT",
@@ -433,24 +628,24 @@
         }
       ]
     },
-    "_base_type": {
+    "_aina_ya_msingi": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "primitive_type"
+          "name": "aina_ya_msingi"
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "kitambulisho"
         }
       ]
     },
-    "primitive_type": {
+    "aina_ya_msingi": {
       "type": "PATTERN",
-      "value": "[nN](8|16|32|64)|[aA](8|16|32|64)|[bB](1|8|16|32|64)|[dD](32|64)|[wW](0|8|16|32|64)"
+      "value": "n(8|16|32|64)|a(8|16|32|64)|b(1|8|16|32|64)|d(32|64)|w(0|8|16|32|64)"
     },
-    "block": {
+    "ubeti": {
       "type": "SEQ",
       "members": [
         {
@@ -461,7 +656,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_statement"
+            "name": "_taarifa"
           }
         },
         {
@@ -470,64 +665,64 @@
         }
       ]
     },
-    "_statement": {
+    "_taarifa": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "block"
+          "name": "ubeti"
         },
         {
           "type": "SYMBOL",
-          "name": "if_statement"
+          "name": "taarifa_ya_kama"
         },
         {
           "type": "SYMBOL",
-          "name": "while_statement"
+          "name": "taarifa_ya_wakati"
         },
         {
           "type": "SYMBOL",
-          "name": "for_statement"
+          "name": "taarifa_ya_kwa"
         },
         {
           "type": "SYMBOL",
-          "name": "do_while_statement"
+          "name": "taarifa_ya_fanya"
         },
         {
           "type": "SYMBOL",
-          "name": "switch_statement"
+          "name": "taarifa_ya_chagua"
         },
         {
           "type": "SYMBOL",
-          "name": "return_statement"
+          "name": "taarifa_ya_rudisha"
         },
         {
           "type": "SYMBOL",
-          "name": "break_statement"
+          "name": "taarifa_ya_acha"
         },
         {
           "type": "SYMBOL",
-          "name": "continue_statement"
+          "name": "taarifa_ya_endelea"
         },
         {
           "type": "SYMBOL",
-          "name": "local_variable_declaration"
+          "name": "tangazo_la_ndani"
         },
         {
           "type": "SYMBOL",
-          "name": "achilia_statement"
+          "name": "taarifa_ya_achilia"
         },
         {
           "type": "SYMBOL",
-          "name": "expression_statement"
+          "name": "taarifa_ya_usemi"
         },
         {
           "type": "SYMBOL",
-          "name": "empty_statement"
+          "name": "taarifa_tupu"
         }
       ]
     },
-    "achilia_statement": {
+    "taarifa_ya_achilia": {
       "type": "SEQ",
       "members": [
         {
@@ -536,10 +731,10 @@
         },
         {
           "type": "FIELD",
-          "name": "operand",
+          "name": "operanda",
           "content": {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_usemi"
           }
         },
         {
@@ -548,11 +743,11 @@
         }
       ]
     },
-    "empty_statement": {
+    "taarifa_tupu": {
       "type": "STRING",
       "value": ";"
     },
-    "if_statement": {
+    "taarifa_ya_kama": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -568,10 +763,10 @@
           },
           {
             "type": "FIELD",
-            "name": "condition",
+            "name": "sharti",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           },
           {
@@ -580,10 +775,10 @@
           },
           {
             "type": "FIELD",
-            "name": "consequence",
+            "name": "basi",
             "content": {
               "type": "SYMBOL",
-              "name": "_statement"
+              "name": "_taarifa"
             }
           },
           {
@@ -598,10 +793,10 @@
                   },
                   {
                     "type": "FIELD",
-                    "name": "alternative",
+                    "name": "sivyo",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "_statement"
+                      "name": "_taarifa"
                     }
                   }
                 ]
@@ -614,7 +809,7 @@
         ]
       }
     },
-    "while_statement": {
+    "taarifa_ya_wakati": {
       "type": "SEQ",
       "members": [
         {
@@ -627,10 +822,10 @@
         },
         {
           "type": "FIELD",
-          "name": "condition",
+          "name": "sharti",
           "content": {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_usemi"
           }
         },
         {
@@ -639,15 +834,15 @@
         },
         {
           "type": "FIELD",
-          "name": "body",
+          "name": "maudhui",
           "content": {
             "type": "SYMBOL",
-            "name": "_statement"
+            "name": "_taarifa"
           }
         }
       ]
     },
-    "for_statement": {
+    "taarifa_ya_kwa": {
       "type": "SEQ",
       "members": [
         {
@@ -660,13 +855,13 @@
         },
         {
           "type": "FIELD",
-          "name": "init",
+          "name": "kianzio",
           "content": {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_for_clause"
+                "name": "_kifungu_cha_kwa"
               },
               {
                 "type": "BLANK"
@@ -680,13 +875,13 @@
         },
         {
           "type": "FIELD",
-          "name": "condition",
+          "name": "sharti",
           "content": {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "_usemi"
               },
               {
                 "type": "BLANK"
@@ -700,13 +895,13 @@
         },
         {
           "type": "FIELD",
-          "name": "update",
+          "name": "hatua",
           "content": {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "_usemi"
               },
               {
                 "type": "BLANK"
@@ -720,44 +915,44 @@
         },
         {
           "type": "FIELD",
-          "name": "body",
+          "name": "maudhui",
           "content": {
             "type": "SYMBOL",
-            "name": "_statement"
+            "name": "_taarifa"
           }
         }
       ]
     },
-    "_for_clause": {
+    "_kifungu_cha_kwa": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_usemi"
         },
         {
           "type": "SYMBOL",
-          "name": "_bare_local_declaration"
+          "name": "_tangazo_la_ndani_tupu"
         }
       ]
     },
-    "_bare_local_declaration": {
+    "_tangazo_la_ndani_tupu": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "type",
+          "name": "aina",
           "content": {
             "type": "SYMBOL",
-            "name": "_type"
+            "name": "_aina"
           }
         },
         {
           "type": "FIELD",
-          "name": "name",
+          "name": "jina",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "kitambulisho"
           }
         },
         {
@@ -772,10 +967,10 @@
                 },
                 {
                   "type": "FIELD",
-                  "name": "value",
+                  "name": "thamani",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "_usemi"
                   }
                 }
               ]
@@ -787,7 +982,7 @@
         }
       ]
     },
-    "do_while_statement": {
+    "taarifa_ya_fanya": {
       "type": "SEQ",
       "members": [
         {
@@ -796,10 +991,10 @@
         },
         {
           "type": "FIELD",
-          "name": "body",
+          "name": "maudhui",
           "content": {
             "type": "SYMBOL",
-            "name": "block"
+            "name": "ubeti"
           }
         },
         {
@@ -812,10 +1007,10 @@
         },
         {
           "type": "FIELD",
-          "name": "condition",
+          "name": "sharti",
           "content": {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_usemi"
           }
         },
         {
@@ -828,7 +1023,7 @@
         }
       ]
     },
-    "switch_statement": {
+    "taarifa_ya_chagua": {
       "type": "SEQ",
       "members": [
         {
@@ -841,10 +1036,10 @@
         },
         {
           "type": "FIELD",
-          "name": "value",
+          "name": "thamani",
           "content": {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_usemi"
           }
         },
         {
@@ -859,7 +1054,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "switch_case"
+            "name": "hali"
           }
         },
         {
@@ -868,7 +1063,7 @@
         }
       ]
     },
-    "switch_case": {
+    "hali": {
       "type": "CHOICE",
       "members": [
         {
@@ -880,10 +1075,10 @@
             },
             {
               "type": "FIELD",
-              "name": "label",
+              "name": "thamani_ya_hali",
               "content": {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "_usemi"
               }
             },
             {
@@ -894,7 +1089,7 @@
               "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
-                "name": "_statement"
+                "name": "_taarifa"
               }
             }
           ]
@@ -914,14 +1109,14 @@
               "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
-                "name": "_statement"
+                "name": "_taarifa"
               }
             }
           ]
         }
       ]
     },
-    "return_statement": {
+    "taarifa_ya_rudisha": {
       "type": "SEQ",
       "members": [
         {
@@ -933,10 +1128,10 @@
           "members": [
             {
               "type": "FIELD",
-              "name": "value",
+              "name": "thamani",
               "content": {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "_usemi"
               }
             },
             {
@@ -950,7 +1145,7 @@
         }
       ]
     },
-    "break_statement": {
+    "taarifa_ya_acha": {
       "type": "SEQ",
       "members": [
         {
@@ -963,7 +1158,7 @@
         }
       ]
     },
-    "continue_statement": {
+    "taarifa_ya_endelea": {
       "type": "SEQ",
       "members": [
         {
@@ -976,7 +1171,7 @@
         }
       ]
     },
-    "local_variable_declaration": {
+    "tangazo_la_ndani": {
       "type": "PREC_DYNAMIC",
       "value": 1,
       "content": {
@@ -984,15 +1179,15 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "type",
+            "name": "aina",
             "content": {
               "type": "SYMBOL",
-              "name": "_type"
+              "name": "_aina"
             }
           },
           {
             "type": "SYMBOL",
-            "name": "declarator"
+            "name": "jina_linalotangazwa"
           },
           {
             "type": "REPEAT",
@@ -1005,7 +1200,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "declarator"
+                  "name": "jina_linalotangazwa"
                 }
               ]
             }
@@ -1017,15 +1212,15 @@
         ]
       }
     },
-    "declarator": {
+    "jina_linalotangazwa": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "name",
+          "name": "jina",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "kitambulisho"
           }
         },
         {
@@ -1040,10 +1235,10 @@
                 },
                 {
                   "type": "FIELD",
-                  "name": "size",
+                  "name": "ukubwa",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "_usemi"
                   }
                 },
                 {
@@ -1069,10 +1264,10 @@
                 },
                 {
                   "type": "FIELD",
-                  "name": "value",
+                  "name": "thamani",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "_usemi"
                   }
                 }
               ]
@@ -1084,12 +1279,12 @@
         }
       ]
     },
-    "expression_statement": {
+    "taarifa_ya_usemi": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_usemi"
         },
         {
           "type": "STRING",
@@ -1097,68 +1292,73 @@
         }
       ]
     },
-    "_expression": {
+    "_usemi": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "assignment_expression"
+          "name": "ugawaji"
         },
         {
           "type": "SYMBOL",
-          "name": "ternary_expression"
+          "name": "usemi_wa_masharti"
         },
         {
           "type": "SYMBOL",
-          "name": "binary_expression"
+          "name": "usemi_wa_pande_mbili"
         },
         {
           "type": "SYMBOL",
-          "name": "unary_expression"
+          "name": "usemi_wa_upande_mmoja"
         },
         {
           "type": "SYMBOL",
-          "name": "call_expression"
+          "name": "wito"
         },
         {
           "type": "SYMBOL",
-          "name": "field_expression"
+          "name": "usemi_wa_sehemu"
         },
         {
           "type": "SYMBOL",
-          "name": "subscript_expression"
+          "name": "usemi_wa_fahirisi"
         },
         {
           "type": "SYMBOL",
-          "name": "address_expression"
+          "name": "usemi_wa_anwani"
         },
         {
           "type": "SYMBOL",
-          "name": "dereference_expression"
+          "name": "usemi_wa_kufikia"
         },
         {
           "type": "SYMBOL",
-          "name": "parenthesized_expression"
+          "name": "usemi_wa_mabano"
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "kitambulisho"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "aina_ya_msingi"
+          },
+          "named": true,
+          "value": "kitambulisho"
         },
         {
           "type": "SYMBOL",
-          "name": "number_literal"
+          "name": "nambari"
         },
         {
           "type": "SYMBOL",
-          "name": "char_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string_literal"
+          "name": "mfuatano"
         }
       ]
     },
-    "assignment_expression": {
+    "ugawaji": {
       "type": "PREC_RIGHT",
       "value": 1,
       "content": {
@@ -1166,10 +1366,10 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "left",
+            "name": "kushoto",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           },
           {
@@ -1227,16 +1427,16 @@
           },
           {
             "type": "FIELD",
-            "name": "right",
+            "name": "kulia",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           }
         ]
       }
     },
-    "ternary_expression": {
+    "usemi_wa_masharti": {
       "type": "PREC_RIGHT",
       "value": 2,
       "content": {
@@ -1244,10 +1444,10 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "condition",
+            "name": "sharti",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           },
           {
@@ -1256,10 +1456,10 @@
           },
           {
             "type": "FIELD",
-            "name": "consequence",
+            "name": "basi",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           },
           {
@@ -1268,16 +1468,16 @@
           },
           {
             "type": "FIELD",
-            "name": "alternative",
+            "name": "sivyo",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           }
         ]
       }
     },
-    "binary_expression": {
+    "usemi_wa_pande_mbili": {
       "type": "CHOICE",
       "members": [
         {
@@ -1288,15 +1488,15 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "left",
+                "name": "kushoto",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               },
               {
                 "type": "FIELD",
-                "name": "operator",
+                "name": "mwendeshaji",
                 "content": {
                   "type": "STRING",
                   "value": "||"
@@ -1304,10 +1504,10 @@
               },
               {
                 "type": "FIELD",
-                "name": "right",
+                "name": "kulia",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               }
             ]
@@ -1321,15 +1521,15 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "left",
+                "name": "kushoto",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               },
               {
                 "type": "FIELD",
-                "name": "operator",
+                "name": "mwendeshaji",
                 "content": {
                   "type": "STRING",
                   "value": "&&"
@@ -1337,10 +1537,10 @@
               },
               {
                 "type": "FIELD",
-                "name": "right",
+                "name": "kulia",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               }
             ]
@@ -1354,15 +1554,15 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "left",
+                "name": "kushoto",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               },
               {
                 "type": "FIELD",
-                "name": "operator",
+                "name": "mwendeshaji",
                 "content": {
                   "type": "STRING",
                   "value": "|"
@@ -1370,10 +1570,10 @@
               },
               {
                 "type": "FIELD",
-                "name": "right",
+                "name": "kulia",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               }
             ]
@@ -1387,15 +1587,15 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "left",
+                "name": "kushoto",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               },
               {
                 "type": "FIELD",
-                "name": "operator",
+                "name": "mwendeshaji",
                 "content": {
                   "type": "STRING",
                   "value": "^"
@@ -1403,10 +1603,10 @@
               },
               {
                 "type": "FIELD",
-                "name": "right",
+                "name": "kulia",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               }
             ]
@@ -1420,15 +1620,15 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "left",
+                "name": "kushoto",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               },
               {
                 "type": "FIELD",
-                "name": "operator",
+                "name": "mwendeshaji",
                 "content": {
                   "type": "STRING",
                   "value": "&"
@@ -1436,10 +1636,10 @@
               },
               {
                 "type": "FIELD",
-                "name": "right",
+                "name": "kulia",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               }
             ]
@@ -1453,15 +1653,15 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "left",
+                "name": "kushoto",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               },
               {
                 "type": "FIELD",
-                "name": "operator",
+                "name": "mwendeshaji",
                 "content": {
                   "type": "CHOICE",
                   "members": [
@@ -1478,10 +1678,10 @@
               },
               {
                 "type": "FIELD",
-                "name": "right",
+                "name": "kulia",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               }
             ]
@@ -1495,15 +1695,15 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "left",
+                "name": "kushoto",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               },
               {
                 "type": "FIELD",
-                "name": "operator",
+                "name": "mwendeshaji",
                 "content": {
                   "type": "CHOICE",
                   "members": [
@@ -1528,10 +1728,10 @@
               },
               {
                 "type": "FIELD",
-                "name": "right",
+                "name": "kulia",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               }
             ]
@@ -1545,15 +1745,15 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "left",
+                "name": "kushoto",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               },
               {
                 "type": "FIELD",
-                "name": "operator",
+                "name": "mwendeshaji",
                 "content": {
                   "type": "CHOICE",
                   "members": [
@@ -1570,10 +1770,10 @@
               },
               {
                 "type": "FIELD",
-                "name": "right",
+                "name": "kulia",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               }
             ]
@@ -1587,15 +1787,15 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "left",
+                "name": "kushoto",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               },
               {
                 "type": "FIELD",
-                "name": "operator",
+                "name": "mwendeshaji",
                 "content": {
                   "type": "CHOICE",
                   "members": [
@@ -1612,10 +1812,10 @@
               },
               {
                 "type": "FIELD",
-                "name": "right",
+                "name": "kulia",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               }
             ]
@@ -1629,15 +1829,15 @@
             "members": [
               {
                 "type": "FIELD",
-                "name": "left",
+                "name": "kushoto",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               },
               {
                 "type": "FIELD",
-                "name": "operator",
+                "name": "mwendeshaji",
                 "content": {
                   "type": "CHOICE",
                   "members": [
@@ -1658,10 +1858,10 @@
               },
               {
                 "type": "FIELD",
-                "name": "right",
+                "name": "kulia",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "_usemi"
                 }
               }
             ]
@@ -1669,7 +1869,7 @@
         }
       ]
     },
-    "unary_expression": {
+    "usemi_wa_upande_mmoja": {
       "type": "PREC",
       "value": 13,
       "content": {
@@ -1677,7 +1877,7 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "operator",
+            "name": "mwendeshaji",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -1698,16 +1898,16 @@
           },
           {
             "type": "FIELD",
-            "name": "operand",
+            "name": "operanda",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           }
         ]
       }
     },
-    "address_expression": {
+    "usemi_wa_anwani": {
       "type": "PREC",
       "value": 13,
       "content": {
@@ -1719,16 +1919,16 @@
           },
           {
             "type": "FIELD",
-            "name": "operand",
+            "name": "operanda",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           }
         ]
       }
     },
-    "dereference_expression": {
+    "usemi_wa_kufikia": {
       "type": "PREC",
       "value": 13,
       "content": {
@@ -1740,16 +1940,16 @@
           },
           {
             "type": "FIELD",
-            "name": "operand",
+            "name": "operanda",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           }
         ]
       }
     },
-    "call_expression": {
+    "wito": {
       "type": "PREC",
       "value": 14,
       "content": {
@@ -1757,24 +1957,24 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "function",
+            "name": "kazi",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           },
           {
             "type": "FIELD",
-            "name": "arguments",
+            "name": "hoja",
             "content": {
               "type": "SYMBOL",
-              "name": "argument_list"
+              "name": "orodha_ya_hoja"
             }
           }
         ]
       }
     },
-    "argument_list": {
+    "orodha_ya_hoja": {
       "type": "SEQ",
       "members": [
         {
@@ -1792,11 +1992,11 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "_expression"
+                      "name": "_usemi"
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "primitive_type"
+                      "name": "aina_ya_msingi"
                     }
                   ]
                 },
@@ -1814,11 +2014,11 @@
                         "members": [
                           {
                             "type": "SYMBOL",
-                            "name": "_expression"
+                            "name": "_usemi"
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "primitive_type"
+                            "name": "aina_ya_msingi"
                           }
                         ]
                       }
@@ -1838,7 +2038,7 @@
         }
       ]
     },
-    "field_expression": {
+    "usemi_wa_sehemu": {
       "type": "PREC",
       "value": 14,
       "content": {
@@ -1846,15 +2046,15 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "object",
+            "name": "kitu",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           },
           {
             "type": "FIELD",
-            "name": "operator",
+            "name": "mwendeshaji",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -1871,16 +2071,16 @@
           },
           {
             "type": "FIELD",
-            "name": "field",
+            "name": "sehemu",
             "content": {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "kitambulisho"
             }
           }
         ]
       }
     },
-    "subscript_expression": {
+    "usemi_wa_fahirisi": {
       "type": "PREC",
       "value": 14,
       "content": {
@@ -1888,10 +2088,10 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "object",
+            "name": "kitu",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           },
           {
@@ -1900,10 +2100,10 @@
           },
           {
             "type": "FIELD",
-            "name": "index",
+            "name": "fahirisi",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_usemi"
             }
           },
           {
@@ -1913,7 +2113,7 @@
         ]
       }
     },
-    "parenthesized_expression": {
+    "usemi_wa_mabano": {
       "type": "SEQ",
       "members": [
         {
@@ -1922,7 +2122,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_usemi"
         },
         {
           "type": "STRING",
@@ -1930,70 +2130,15 @@
         }
       ]
     },
-    "identifier": {
+    "kitambulisho": {
       "type": "PATTERN",
       "value": "[a-zA-Z_][a-zA-Z0-9_]*"
     },
-    "number_literal": {
+    "nambari": {
       "type": "PATTERN",
       "value": "[0-9]+(\\.[0-9]+)?"
     },
-    "char_literal": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "'"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "\\"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "x"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[0-9a-fA-F]{0,2}"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "\\"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "."
-                  }
-                ]
-              },
-              {
-                "type": "PATTERN",
-                "value": "[^'\\\\]"
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": "'"
-          }
-        ]
-      }
-    },
-    "string_literal": {
+    "mfuatano": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
@@ -2025,7 +2170,7 @@
         ]
       }
     },
-    "comment": {
+    "maoni": {
       "type": "TOKEN",
       "content": {
         "type": "CHOICE",
@@ -2282,13 +2427,17 @@
     },
     {
       "type": "SYMBOL",
-      "name": "comment"
+      "name": "maoni"
     }
   ],
   "conflicts": [
     [
-      "_base_type",
-      "_expression"
+      "_aina_ya_msingi",
+      "_usemi"
+    ],
+    [
+      "_usemi",
+      "orodha_ya_hoja"
     ]
   ],
   "precedences": [],
